@@ -1,0 +1,15 @@
+.registerOuterContainer {
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 8px;
+}
+
+.loginText {
+  color: #007bff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.mt2 {
+  margin-top: 2vh;
+}

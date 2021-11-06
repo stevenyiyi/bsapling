@@ -1,0 +1,328 @@
+/* Add styles to the form container */
+.formContainer {
+  padding: 12x, 16px;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: white;
+}
+
+.formContainer textarea {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  height: 150px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.normal_input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.inner_input {
+  width: 100%;
+  padding: 4px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+/* Set a style for the submit/login button */
+.formContainer button {
+  background-color: #04aa6d;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+/* Add some hover effects to buttons */
+.formContainer button:hover {
+  opacity: 0.8;
+}
+
+/** Dropdown */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  padding: 10px 0;
+}
+
+.dropbtn--container {
+  display: flex;
+  height: 30px;
+  border: 1px solid #aaa;
+  margin: 0;
+  padding: 0;
+}
+
+.dropbtn--selected-item {
+  flex-grow: 1;
+  display: inline-block;
+  padding: 4px 12px;
+  vertical-align: middle;
+}
+
+.dropbtn--arrow {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  display: block;
+  background: #888888;
+  cursor: pointer;
+}
+
+.dropbtn--arrow:hover,
+.dropbtn--arrow:focus {
+  background-color: #2980b9;
+}
+
+.dropbtn--arrow-down {
+  position: absolute;
+  top: 10px;
+  left: 6px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 10px solid #ffffe0;
+}
+
+.dropbtn--arrow-up {
+  position: absolute;
+  top: 10px;
+  left: 6px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 10px solid #ffffe0;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 150px;
+  max-height: 300px;
+  overflow-y: scroll;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content .item {
+  color: black;
+  padding: 6px 10px;
+  text-decoration: none;
+  display: block;
+}
+
+.selected,
+.dropdown-content .item:hover {
+  background-color: #ddd;
+}
+
+/** progress bar*/
+.progress {
+  width: 100%;
+  background-color: #ddd;
+}
+
+.progress .bar {
+  width: 0%;
+  height: 30px;
+  background-color: #04aa6d;
+  text-align: center;
+  line-height: 30px;
+  color: white;
+}
+
+/** list */
+ul {
+  list-style-type: none;
+  padding: 0;
+  /** border: 1px solid #ccc; */
+}
+
+ul li {
+  padding: 4px 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+ul li:last-child {
+  border-bottom: none;
+}
+
+/** table */
+.tableContainer {
+  padding: 12x, 16px;
+  margin: 0 auto;
+  background-color: white;
+  /** overflow: auto; */
+}
+
+.tableHeader {
+  display: flex;
+  margin: 0 50px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/** Circle button */
+.circle_btn {
+  background-color: #04aa6d;
+  border-radius: 50%;
+  border: none;
+  color: white;
+  padding: 10px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.circle_btn:enabled:hover {
+  background-color: RoyalBlue;
+}
+
+button:disabled,
+button[disabled] {
+  background-color: #cccccc;
+  color: #666666;
+}
+
+/** Circle span */
+.circle_span {
+  background-color: #04aa6d;
+  border-radius: 50%;
+  border: none;
+  color: white;
+  padding: 7px 10px;
+  margin: 0px 4px;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.circle_span:hover {
+  background-color: RoyalBlue;
+}
+/** help field */
+.note {
+  font-size: 0.8em;
+  color: red;
+}
+
+/** spining progress */
+.spinner {
+  animation: spin infinite 5s linear;
+
+  /*You can increase or decrease the timer (5s) to 
+   increase or decrease the speed of the spinner*/
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.normal_btn {
+  background-color: #888;
+  color: white;
+  border-radius: 5px;
+  padding: 8px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+}
+
+.normal_btn:hover {
+  opacity: 0.7;
+}
+
+/** avatar */
+.personal-image {
+  text-align: center;
+}
+.personal-image input[type="file"] {
+  display: none;
+}
+.personal-figure {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+.personal-avatar {
+  cursor: pointer;
+  width: 120px;
+  height: 120px;
+  box-sizing: border-box;
+  border-radius: 100%;
+  border: 2px solid transparent;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+  transition: all ease-in-out 0.3s;
+}
+.personal-avatar:hover {
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
+}
+.personal-figcaption {
+  cursor: pointer;
+  position: absolute;
+  top: 0px;
+  width: inherit;
+  height: inherit;
+  border-radius: 100%;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0);
+  transition: all ease-in-out 0.3s;
+}
+.personal-figcaption:hover {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.personal-figcaption > img {
+  margin-top: 32.5px;
+  width: 50px;
+  height: 50px;
+}
+
+/** general css element */
+.full_width {
+  width: 100%;
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}

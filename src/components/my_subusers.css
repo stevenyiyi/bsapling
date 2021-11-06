@@ -1,0 +1,41 @@
+.topnav {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: space-between;
+  /** overflow: hidden; */
+  background-color: #e9e9e9;
+}
+
+.topnav .search-container {
+  display: flex;
+}
+
+.topnav input[type="text"] {
+  margin: 0 auto;
+  padding: 6px;
+  font-size: 1em;
+  border: none;
+}
+
+.topnav .search-container button {
+  padding: 6px 10px;
+  background: #ddd;
+  font-size: 1em;
+  border: none;
+  cursor: pointer;
+}
+
+.topnav .search-container button:hover {
+  background: #2980b9;
+}
+
+.pagination {
+  margin: 8px;
+  display: block;
+  float: right;
+}
+
+.pagination label {
+  padding: 10px 10px 10px 20px;
+}

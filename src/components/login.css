@@ -1,0 +1,9 @@
+.loginOuterContainer {
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 8px;
+}
+
+.registerMessage {
+  margin-top: 8vh;
+}

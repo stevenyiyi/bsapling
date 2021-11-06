@@ -1,0 +1,57 @@
+/** input hook  */
+.label_floating {
+  display: block;
+  transform: translate(0, -2.75rem);
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="tel"],
+input[type="search"],
+input[type="url"],
+input[type="number"] {
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 0.25rem;
+  border: none;
+  box-sizing: border-box;
+  border-bottom: 2px solid #111;
+  transition: border-color 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus,
+input[type="datetime-local"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="search"]:focus,
+input[type="url"]:focus,
+input[type="number"]:focus {
+  outline: none;
+  border-color: green;
+}
+
+@supports (not (-ms-ime-align: auto)) {
+  .label_floating {
+    color: #999;
+    transform: translate(0.25rem, -1.5rem);
+    transition: all 0.2s ease-out;
+  }
+
+  input[type="text"]:not(:placeholder-shown) + .label_floating,
+  input[type="password"]:not(:placeholder-shown) + .label_floating,
+  input[type="date"]:not(:placeholder-shown) + .label_floating,
+  input[type="datetime-local"]:not(:placeholder-shown) + .label_floating,
+  input[type="email"]:not(:placeholder-shown) + .label_floating,
+  input[type="tel"]:not(:placeholder-shown) + .label_floating,
+  input[type="search"]:not(:placeholder-shown) + .label_floating,
+  input[type="url"]:not(:placeholder-shown) + .label_floating,
+  input[type="number"]:not(:placeholder-shown) + .label_floating {
+    color: rgba(0, 0, 0, 0.5);
+    transform: scale(0.8) translate(-3rem, -3.5rem);
+  }
+}

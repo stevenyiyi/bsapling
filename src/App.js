@@ -16,6 +16,7 @@ import Login from "./components/login";
 import Registration from "./components/registration";
 import MySchools from "./components/my_schools";
 import { UserContext } from "./user_context";
+import "./components/sidebar.css";
 const App = (props) => {
   const updateUser = (user) => {
     setCuser({ ...cuser, user: user });

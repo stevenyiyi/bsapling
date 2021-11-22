@@ -26,8 +26,8 @@ export default function ModifyStudent(props) {
   /// 处理文件上传
   const handleFileUpload = (event) => {
     const selectedFile = event.target.files[0];
-    if (selectedFile.size > 400 * 1024) {
-      alert("选择的头像文件不能超过400KB！");
+    if (selectedFile.size > 20 * 1024) {
+      alert("选择的头像文件不能超过20KB！");
       return;
     }
     refAvatar.current.src = URL.createObjectURL(selectedFile);
@@ -46,7 +46,7 @@ export default function ModifyStudent(props) {
 
     if (student.photo !== photo) {
       let ext = photo.name.split(".").pop();
-      let upload_file = `${student.telphone}_photo.${ext}`;
+      let upload_file = `${student.username}_photo.${ext}`;
       mfields.append("photo", photo, upload_file);
       ustudent.photo = upload_file;
     }

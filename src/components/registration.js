@@ -1,8 +1,7 @@
 import React from "react";
 import http from "../http_common";
 import ASTooltip from "./as_tootip";
-import "./common.css";
-import "./registration.css";
+import "./login.css";
 import { useNavigate } from "react-router-dom";
 
 export default function Registration(props) {
@@ -93,43 +92,37 @@ export default function Registration(props) {
     }
   };
   return (
-    <div className="registerOuterContainer">
-      <form className="formContainer">
+    <div className="loginOuterContainer">
+      <div className="loginInnerContainer">
+        <h1 className="heading">新用户注册</h1>
         <input
           type="text"
           name="username"
           id="username"
-          placeholder=" "
+          className="loginInput"
+          placeholder="请输入用户名"
           onChange={handleChange}
         />
-        <label className="label_floating" htmlFor="username">
-          请输入用户名
-        </label>
-
         <input
           type="password"
           name="password"
           id="password"
-          placeholder=" "
+          className="loginInput mt-20"
+          placeholder="输入口令"
           onChange={handleChange}
         />
-        <label className="label_floating" htmlFor="password">
-          输入口令
-        </label>
 
         <input
           type="password"
           name="confirmPassword"
           id="confirmPassword"
-          placeholder=" "
+          className="loginInput mt-20"
+          placeholder=" 再输入一次口令"
           onChange={handleChange}
         />
-        <label className="label_floating" htmlFor="confirmPassword">
-          再输入一次口令
-        </label>
         <button
           type="submit"
-          className="tooltip btn"
+          className="tooltip button mt-20"
           onClick={handleSubmitClick}
         >
           注 册
@@ -142,12 +135,12 @@ export default function Registration(props) {
             {message.text}
           </ASTooltip>
         </button>
-      </form>
-      <div className="mt-2">
-        <span>已经有帐号? </span>
-        <span className="loginText" onClick={() => redirectToLogin()}>
-          登录
-        </span>
+        <div className="registerMessage">
+          <span>已经有帐号? </span>
+          <span className="loginText" onClick={() => redirectToLogin()}>
+            登录
+          </span>
+        </div>
       </div>
     </div>
   );

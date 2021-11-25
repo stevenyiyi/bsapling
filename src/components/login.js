@@ -5,7 +5,6 @@ import http from "../http_common";
 import ASTooltip from "./as_tootip";
 import Cookies from "js-cookie";
 import "./login.css";
-import "./common.css";
 import { UserContext } from "../user_context";
 export default function Login(props) {
   const ERR_NO_ACCOUNT = 0x800000f;
@@ -122,30 +121,27 @@ export default function Login(props) {
 
   return (
     <div className="loginOuterContainer">
-      <form className="formContainer">
+      <div className="loginInnerContainer">
+        <h1 className="heading">用户登录</h1>
         <input
           type="text"
           id="username"
           name="username"
-          placeholder=" "
+          className="loginInput"
+          placeholder="请输入用户名"
           onChange={handleChange}
         />
-        <label className="label_floating" htmlFor="username">
-          请输入用户名
-        </label>
         <input
           type="password"
           name="password"
           id="password"
-          placeholder=" "
+          className="loginInput mt-20"
+          placeholder="请输入口令"
           onChange={handleChange}
         />
-        <label className="label_floating" htmlFor="password">
-          请输入口令
-        </label>
         <button
           type="submit"
-          className="btn tooltip"
+          className="button mt-20 tooltip"
           onClick={handleSubmitClick}
         >
           登 录
@@ -158,12 +154,12 @@ export default function Login(props) {
             {message.text}
           </ASTooltip>
         </button>
-      </form>
-      <div className="registerMessage">
-        <span>没有注册帐户? </span>
-        <span className="loginText" onClick={() => redirectToRegister()}>
-          注册帐户
-        </span>
+        <div className="registerMessage">
+          <span>没有注册帐户? </span>
+          <span className="loginText" onClick={() => redirectToRegister()}>
+            注册帐户
+          </span>
+        </div>
       </div>
     </div>
   );

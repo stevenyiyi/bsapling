@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Cookies from "js-cookie";
-import "./index.css";
 import App from "./App";
 import { default as SnackbarProvider } from "./components/snackbar";
 

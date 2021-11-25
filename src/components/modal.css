@@ -20,7 +20,7 @@
   margin: 5% auto; /* 5% from the top and centered */
   background-color: #fefefe;
   max-width: 500px;
-  padding: 20px;
+  padding: 10px 0px;
   border: 1px solid #888;
   -webkit-animation-name: slideIn;
   -webkit-animation-duration: 0.4s;
@@ -43,13 +43,13 @@
   cursor: pointer;
 }
 .modal-header {
-  margin: 0px 16px 10px;
+  margin: 0px 10px 10px;
   padding: 6px 16px 6px;
   background-color: #04aa6d;
   color: white;
 }
 .modal-body {
-  padding: 2px 16px;
+  padding: 2px 10px;
 }
 .modal-body p {
   word-wrap: break-word;
@@ -57,7 +57,7 @@
 /* Add Animation */
 @-webkit-keyframes slideIn {
   from {
-    bottom: -300px;
+    bottom: -500px;
     opacity: 0;
   }
   to {
@@ -68,7 +68,7 @@
 
 @keyframes slideIn {
   from {
-    bottom: -300px;
+    bottom: -500px;
     opacity: 0;
   }
   to {

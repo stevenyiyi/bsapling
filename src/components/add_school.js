@@ -166,18 +166,20 @@ const AddSchool = (props) => {
           selectedKey=""
           onChange={(value) => setField("county", value)}
         />
-
-        <input
-          id="add-school_edit_id"
-          name="add-school_edit_id"
-          type="text"
-          required
-          placeholder=" "
-          onChange={(e) => setField("name", e.target.value)}
-        />
-        <label className="label_floating" htmlFor="add-school_edit_id">
-          请输入幼儿园名称
-        </label>
+        <div className="form__div">
+          <input
+            id="add-school_edit_id"
+            name="add-school_edit_id"
+            type="text"
+            className="form__input"
+            required
+            placeholder=" "
+            onChange={(e) => setField("name", e.target.value)}
+          />
+          <label className="form__label" htmlFor="add-school_edit_id">
+            请输入幼儿园名称
+          </label>
+        </div>
         <label htmlFor="select-multi-school-pics">选择多个幼儿园图片文件</label>
         <input
           type="file"

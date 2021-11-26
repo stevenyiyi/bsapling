@@ -83,17 +83,20 @@ export default function ModifyTeacher(props) {
   return (
     <Modal title="修改教师信息" show={show} onClose={onClose}>
       <div className="formContainer">
-        <input
-          id="edit_teacher_name"
-          name="edit_teacher_name"
-          type="text"
-          placeholder=" "
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <label className="label_floating" htmlFor="edit_teacher_name">
-          教师姓名
-        </label>
+        <div className="form__div">
+          <input
+            id="edit_teacher_name"
+            name="edit_teacher_name"
+            type="text"
+            className="form__input"
+            placeholder=" "
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <label className="form__label" htmlFor="edit_teacher_name">
+            教师姓名
+          </label>
+        </div>
         <CheckboxMultiSelect
           title="选择班级"
           items={classes}

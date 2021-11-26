@@ -43,19 +43,22 @@ export default function ModifySchool(props) {
   return (
     <Modal title="修改幼儿园信息" show={show} onClose={onClose}>
       <div className="formContainer">
-        <input
-          type="text"
-          id="edit_sapling_name"
-          name="edit_sapling_name"
-          defaultValue={name}
-          placeholder=" "
-          onChange={(e) => setName(e.target.value)}
-        />
-        <label className="label_floating" htmlFor="edit_sapling_name">
-          幼儿园名称
-        </label>
+        <div className="form__div">
+          <input
+            type="text"
+            id="edit_sapling_name"
+            name="edit_sapling_name"
+            className="form__input"
+            value={name}
+            placeholder=" "
+            onChange={(e) => setName(e.target.value)}
+          />
+          <label className="form__label" htmlFor="edit_sapling_name">
+            幼儿园名称
+          </label>
+        </div>
         <textarea
-          defaultValue={introduce}
+          value={introduce}
           placeholder="幼儿园介绍说明"
           onChange={(e) => setIntroduce(e.target.value)}
         />

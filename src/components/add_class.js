@@ -56,18 +56,20 @@ export default function AddClass(props) {
   return (
     <Modal title="新增班级" show={show} onClose={onClose}>
       <form className="formContainer" onSubmit={handleSubmit}>
-        <input
-          id="add-class_edit_id"
-          type="text"
-          value={name}
-          required
-          placeholder=" "
-          onChange={(e) => setName(e.target.value)}
-        />
-        <label className="label_floating" htmlFor="add-class_edit_id">
-          请输入班级名称
-        </label>
-
+        <div className="form__div">
+          <input
+            id="add-class_edit_id"
+            type="text"
+            className="form__input"
+            value={name}
+            required
+            placeholder=" "
+            onChange={(e) => setName(e.target.value)}
+          />
+          <label className="form__label" htmlFor="add-class_edit_id">
+            请输入班级名称
+          </label>
+        </div>
         <MyCamsSelect
           selectedItems={selectedCameras}
           setSelectedItems={setSelectedCameras}

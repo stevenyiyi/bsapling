@@ -83,30 +83,35 @@ export default function AddTeacher(props) {
   return (
     <Modal title="新增教师" show={show} onClose={onClose}>
       <form className="formContainer" onSubmit={handleSubmit}>
-        <input
-          id="add-teacher-name"
-          type="text"
-          value={form.name}
-          required
-          placeholder=" "
-          onChange={(e) => setField("name", e.target.value)}
-        />
-        <label className="label_floating" htmlFor="add-teacher-name">
-          请输入教师姓名
-        </label>
-
-        <input
-          id="add-teacher-tel"
-          type="tel"
-          value={form.telphone}
-          pattern="[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}"
-          required
-          placeholder=" "
-          onChange={(e) => setField("telphone", e.target.value)}
-        />
-        <label className="label_floating" htmlFor="add-teacher-tel">
-          请输入手机号
-        </label>
+        <div className="form__div">
+          <input
+            id="add-teacher-name"
+            type="text"
+            className="form__input"
+            value={form.name}
+            required
+            placeholder=" "
+            onChange={(e) => setField("name", e.target.value)}
+          />
+          <label className="form__label" htmlFor="add-teacher-name">
+            请输入教师姓名
+          </label>
+        </div>
+        <div className="form__div">
+          <input
+            id="add-teacher-tel"
+            type="tel"
+            className="form__input"
+            value={form.telphone}
+            pattern="[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}"
+            required
+            placeholder=" "
+            onChange={(e) => setField("telphone", e.target.value)}
+          />
+          <label className="form__label" htmlFor="add-teacher-tel">
+            请输入手机号
+          </label>
+        </div>
         <CheckboxMultiSelect
           title="选择班级"
           items={classes}

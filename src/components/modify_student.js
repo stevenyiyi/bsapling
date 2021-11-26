@@ -72,26 +72,32 @@ export default function ModifyStudent(props) {
   return (
     <Modal title="修改幼儿信息" show={show} onClose={onClose}>
       <div className="formContainer">
-        <input
-          id="edit_student_name"
-          type="text"
-          defaultValue={name}
-          placeholder=" "
-          onChange={(e) => setName(e.target.value)}
-        />
-        <label className="label_floating" htmlFor="edit_student_name">
-          幼儿姓名
-        </label>
-        <input
-          id="edit_student_endts"
-          name="edit_student_endts"
-          type="date"
-          value={endts}
-          onChange={(e) => setEndts(e.target.value)}
-        />
-        <label className="label_floating" htmlFor="edit_student_endts">
-          帐户终止日期
-        </label>
+        <div className="form__div">
+          <input
+            id="edit_student_name"
+            type="text"
+            className="form__input"
+            value={name}
+            placeholder=" "
+            onChange={(e) => setName(e.target.value)}
+          />
+          <label className="form__label" htmlFor="edit_student_name">
+            幼儿姓名
+          </label>
+        </div>
+        <div className="form__div">
+          <input
+            id="edit_student_endts"
+            name="edit_student_endts"
+            type="date"
+            className="form__input"
+            value={endts}
+            onChange={(e) => setEndts(e.target.value)}
+          />
+          <label className="form__label" htmlFor="edit_student_endts">
+            帐户终止日期
+          </label>
+        </div>
         <div className="personal-image">
           <label>
             <input

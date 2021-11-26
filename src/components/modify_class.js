@@ -12,7 +12,10 @@ export default function ModifyClass(props) {
   const [selectedCameras, setSelectedCameras] = React.useState([]);
 
   console.log("modify class render!");
-  const prevCameras = React.useMemo(()=> classinfo.cameras.map((cam) => cam.deviceid),[classinfo]);
+  const prevCameras = React.useMemo(
+    () => classinfo.cameras.map((cam) => cam.deviceid),
+    [classinfo]
+  );
 
   React.useEffect(() => {
     if (classinfo) {
@@ -87,17 +90,20 @@ export default function ModifyClass(props) {
           setSelectedItems={setSelectedCameras}
           kvmap={{ key: "deviceid", value: "name" }}
         />
-        <input
-          type="text"
-          id="edit_classname"
-          name="edit_classname"
-          defaultValue={name}
-          placeholder=" "
-          onChange={(e) => setName(e.target.value.trim())}
-        />
-        <label className="label_floating" htmlFor="edit_classname">
-          班级名称
-        </label>
+        <div className="form__div">
+          <input
+            type="text"
+            id="edit_classname"
+            name="edit_classname"
+            className="form__input"
+            value={name}
+            placeholder=" "
+            onChange={(e) => setName(e.target.value.trim())}
+          />
+          <label className="form__label" htmlFor="edit_classname">
+            班级名称
+          </label>
+        </div>
         <button type="submit" onClick={handleSubmit}>
           修 改
         </button>

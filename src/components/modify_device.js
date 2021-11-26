@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import http from "../http_common";
 import Modal from "./modal";
 import "./common.css";
+import "./floating_label.css";
 
 export default function ModifyDevice(props) {
   const { dev, show, onClose, onChange } = props;
@@ -97,22 +98,32 @@ export default function ModifyDevice(props) {
   return (
     <Modal title="修改设备" show={show} onClose={onClose}>
       <form className="formContainer" onSubmit={handleSubmit}>
-        <label htmlFor="deviceid">设备编码</label>
-        <input
-          className="normal_input"
-          type="text"
-          id={dev.deviceid}
-          defaultValue={dev.deviceid}
-          readOnly
-        />
-        <label htmlFor="edit_devname">设备名称</label>
-        <input
-          className="normal_input"
-          type="text"
-          id={`${dev.deviceid}_name`}
-          defaultValue={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <div className="form__div">
+          <input
+            className="form__input"
+            type="text"
+            id={dev.deviceid}
+            placeholder=" "
+            defaultValue={dev.deviceid}
+            readOnly
+          />
+          <label htmlFor="deviceid" className="form__label">
+            设备编码
+          </label>
+        </div>
+        <div className="form__div">
+          <input
+            className="form__input"
+            type="text"
+            id={`${dev.deviceid}_name`}
+            value={name}
+            placeholder=" "
+            onChange={(e) => setName(e.target.value)}
+          />
+          <label className="form__label" htmlFor="edit_devname">
+            设备名称
+          </label>
+        </div>
         {channels ? (
           <table>
             <thead>
@@ -155,18 +166,21 @@ export default function ModifyDevice(props) {
             </tbody>
           </table>
         ) : (
-          <>
-            <label htmlFor={`${dev.deviceid}_schedule`}>开放时间段</label>
+          <div className="form__div">
             <input
               type="text"
               id={`${dev.deviceid}_schedule`}
               name="schedule"
               defaultValue={dev.schedule}
-              className="inner_input"
+              className="form__input"
+              placeholder=" "
               pattern="^((?:[01]\d:[0-5][0-9]|2[0-3]:[0-5][0-9])(?:\s?)-(?:\s?)(?:[01]\d:[0-5][0-9]|2[0-3]:[0-5][0-9])(?:\s?,\s?)?)+"
               onChange={(e) => setSchedule(e.target.value.trim())}
             />
-          </>
+            <label className="form__label" htmlFor={`${dev.deviceid}_schedule`}>
+              开放时间段
+            </label>
+          </div>
         )}
         <button type="submit">确定</button>
       </form>

@@ -158,24 +158,27 @@ export default function DeviceRegister(props) {
           selectedKey=""
           onChange={handleChangeDeviceType}
         />
-
-        <input
-          id="add-device_edit_id"
-          name="add-device_edit_id"
-          type="text"
-          required
-          placeholder=" "
-          onChange={(e) => setField("name", e.target.value)}
-        />
-        <label className="label_floating" htmlFor="add-device_edit_id">
-          请输入设备名称
-        </label>
+        <div className="form__div">
+          <input
+            id="add-device_edit_id"
+            name="add-device_edit_id"
+            type="text"
+            className="form__input"
+            required
+            placeholder=" "
+            onChange={(e) => setField("name", e.target.value)}
+          />
+          <label className="form__label" htmlFor="add-device_edit_id">
+            请输入设备名称
+          </label>
+        </div>
         {form.type === "111" && (
-          <>
+          <div className="form__div">
             <input
               id="dev-channels_id"
               name="dev-channels_id"
               type="number"
+              className="form__input"
               defaultValue={16}
               min="1"
               max="32"
@@ -183,24 +186,27 @@ export default function DeviceRegister(props) {
               placeholder=" "
               onChange={(e) => setField("channels", e.target.value)}
             />
-            <label className="label_floating" htmlFor="dev-channels_id">
+            <label className="form__label" htmlFor="dev-channels_id">
               请选择NVR通道数
-            </label>{" "}
-          </>
+            </label>
+          </div>
         )}
-        <input
-          type="password"
-          name="current-password"
-          id="current-password"
-          required
-          pattern="^[0-9a-zA-Z]{6,22}"
-          title="口令限制仅英文字母或数字组成，长度范围(6-22)个字符."
-          placeholder=" "
-          onChange={(e) => setField("password", e.target.value)}
-        />
-        <label className="label_floating" htmlFor="current-password">
-          请输入口令
-        </label>
+        <div className="form__div">
+          <input
+            type="password"
+            name="current-password"
+            id="current-password"
+            className="form__input"
+            required
+            pattern="^[0-9a-zA-Z]{6,22}"
+            title="口令限制仅英文字母或数字组成，长度范围(6-22)个字符."
+            placeholder=" "
+            onChange={(e) => setField("password", e.target.value)}
+          />
+          <label className="form__label" htmlFor="current-password">
+            请输入口令
+          </label>
+        </div>
         <button className="tooltip btn" type="submit">
           确定
           <ASTooltip

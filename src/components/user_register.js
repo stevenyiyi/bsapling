@@ -5,7 +5,6 @@ import ASSelect from "./as_select";
 import MySchoolsSelect from "./my_schools_select";
 import http from "../http_common";
 import ASTooltip from "./as_tootip";
-import { getRandomInt } from "../utils/utils";
 import { UserContext } from "../user_context";
 import "./common.css";
 import "./floating_label.css";
@@ -92,29 +91,35 @@ export default function UserRegister(props) {
   return (
     <Modal title="新用户注册" show={show} onClose={onClose}>
       <form className="formContainer" onSubmit={handleSubmit}>
-        <input
-          id="add-username-tel_edit_id"
-          type="tel"
-          defaultValue={form.telphone}
-          required
-          pattern="[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}"
-          placeholder=" "
-          onChange={(e) => setField("telphone", e.target.value)}
-        />
-        <label className="label_floating" htmlFor="add-username-tel_edit_id">
-          请输入手机号
-        </label>
-        <input
-          id="add-nickname_edit_id"
-          type="text"
-          defaultValue={form.name}
-          required
-          placeholder=" "
-          onChange={(e) => setField("name", e.target.value)}
-        />
-        <label className="label_floating" htmlFor="add-nickname_edit_id">
-          请输入用户姓名
-        </label>
+        <div className="form__div">
+          <input
+            id="add-username-tel_edit_id"
+            type="tel"
+            className="form__input"
+            value={form.telphone}
+            required
+            pattern="[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}"
+            placeholder=" "
+            onChange={(e) => setField("telphone", e.target.value)}
+          />
+          <label className="form__label" htmlFor="add-username-tel_edit_id">
+            请输入手机号
+          </label>
+        </div>
+        <div className="form__div">
+          <input
+            id="add-nickname_edit_id"
+            type="text"
+            className="form__input"
+            value={form.name}
+            required
+            placeholder=" "
+            onChange={(e) => setField("name", e.target.value)}
+          />
+          <label className="form__label" htmlFor="add-nickname_edit_id">
+            请输入用户姓名
+          </label>
+        </div>
         <ASSelect
           title="选择用户角色"
           items={[
@@ -138,27 +143,33 @@ export default function UserRegister(props) {
             onSelectChange={(val) => setField("schoolid", val)}
           />
         )}
-        <input
-          id="add-password_edit_id"
-          type="text"
-          defaultValue={form.password}
-          required
-          placeholder=" "
-          onChange={(e) => setField("password", e.target.value)}
-        />
-        <label className="label_floating" htmlFor="add-password_edit_id">
-          请输入用户口令
-        </label>
-        <input
-          id="add_user_endts"
-          name="add_user_endts"
-          type="date"
-          defaultValue={form.endts}
-          onChange={(e) => setField("endts", e.target.value)}
-        />
-        <label className="label_floating" htmlFor="add_user_endts">
-          帐户终止日期
-        </label>
+        <div className="form__div">
+          <input
+            id="add-password_edit_id"
+            type="text"
+            className="form__input"
+            value={form.password}
+            required
+            placeholder=" "
+            onChange={(e) => setField("password", e.target.value)}
+          />
+          <label className="form__label" htmlFor="add-password_edit_id">
+            请输入用户口令
+          </label>
+        </div>
+        <div className="form__div">
+          <input
+            id="add_user_endts"
+            name="add_user_endts"
+            type="date"
+            className="form__input"
+            value={form.endts}
+            onChange={(e) => setField("endts", e.target.value)}
+          />
+          <label className="form__label" htmlFor="add_user_endts">
+            帐户终止日期
+          </label>
+        </div>
         <button type="submit" className="tooltip">
           确定
           <ASTooltip

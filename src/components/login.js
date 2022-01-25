@@ -67,14 +67,6 @@ export default function Login(props) {
         .catch((e) => {
           /// 错误
           setMessage({ ...message, show: true, text: e.toJSON().message });
-          /// test
-          userCtx.updateUser({
-            username: state.username,
-            token: qparams.token,
-            role: "2",
-            parent_id: "4352435243"
-          });
-          props.history.push("/my_schools");
         });
     }
   };

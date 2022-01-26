@@ -29,7 +29,7 @@ const App = (props) => {
   return (
     <Router>
       <UserContext.Provider value={cuser}>
-        {cuser.user.username ? (
+        {cuser.user.is_login ? (
           <div>
             <Header />
             <div className="content">

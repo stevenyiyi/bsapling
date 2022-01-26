@@ -56,7 +56,7 @@ export default function MySchools(props) {
         <tbody>
           {data &&
             data.map((el, idx) => (
-              <tr>
+              <tr key={el.schoolid}>
                 <td>
                   <span
                     className="circle_span"

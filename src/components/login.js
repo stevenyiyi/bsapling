@@ -46,7 +46,7 @@ export default function Login(props) {
               username: state.username,
               token: qparams.token,
               role: Cookies.get("role"),
-              parent_id: Cookies.get("parent_id")
+              is_login: true
             });
             redirectToHome();
           } else if (result === ERR_NO_ACCOUNT) {

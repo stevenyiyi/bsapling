@@ -106,7 +106,7 @@ export default function MyStudents(props) {
         <tbody>
           {data &&
             data.map((el, idx) => (
-              <tr>
+              <tr key={el.username}>
                 <td>
                   <span
                     className="circle_span"

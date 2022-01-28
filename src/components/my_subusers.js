@@ -22,7 +22,11 @@ export default function MySubusers(props) {
   const [data, setData] = React.useState(null);
   const refMenu = React.useRef(null);
   const [showAddUser, setShowAddUser] = React.useState(false);
-  const [showConfirm, setShowConfirm] = React.useState(false);
+  const [confirm, setConfirm] = React.useState({
+    show: false,
+    message: "",
+    handler: undefined
+  });
   const [likely, setLikely] = React.useState("");
   const [filter, setFilter] = React.useState({
     deviceid: "",
@@ -118,6 +122,7 @@ export default function MySubusers(props) {
   /// 注册新用户
   const handleRegisterUser = (event) => {
     event.preventDefault();
+    refMenu.current.classList.toggle("show");
     setShowAddUser(true);
   };
   /// 模糊查询
@@ -136,7 +141,12 @@ export default function MySubusers(props) {
   /// 删除所有用户
   const handleDeleteUsers = (event) => {
     event.preventDefault();
-    setShowConfirm(true);
+    setConfirm({
+      ...confirm,
+      show: true,
+      message: "确定要删除所有的用户？注意,删除后将无法恢复!",
+      handler: handleConfirmDeleteUsers
+    });
     refMenu.current.classList.toggle("show");
   };
   /// 修改用户
@@ -147,7 +157,7 @@ export default function MySubusers(props) {
   const handleDeleteClick = (idx) => {};
 
   const handleConfirmDeleteUsers = () => {
-    setShowConfirm(false);
+    setConfirm({ ...confirm, show: false });
     setFilter({ ...filter, deleteAll: true });
   };
   /// 显示拥有的摄像头列表
@@ -244,7 +254,7 @@ export default function MySubusers(props) {
         <tbody>
           {data &&
             data.map((item, idx) => (
-              <tr>
+              <tr key={item.username}>
                 <td>
                   <span
                     className="circle_span"
@@ -339,12 +349,12 @@ export default function MySubusers(props) {
         />
       )}
       <Confirm
-        show={showConfirm}
-        message="确定要删除所有的用户？注意，删除后将无法恢复！"
+        show={confirm.show}
+        message={confirm.message}
         onCancel={() => {
-          setShowConfirm(false);
+          setConfirm({ ...confirm, show: false });
         }}
-        onOK={handleConfirmDeleteUsers}
+        onOK={confirm.handler}
       />
     </div>
   );

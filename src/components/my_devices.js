@@ -9,7 +9,7 @@ import "./common.css";
 export default function MyDevices() {
   const [data, setData] = React.useState(null);
   const [showAddDevice, setShowAddDevice] = React.useState(false);
-  const [openSnackbar, closeSnackbar] = useSnackbar();
+  const [openSnackbar] = useSnackbar();
   const [opdev, setOpdev] = React.useState({
     eshow: false,
     qshow: false,

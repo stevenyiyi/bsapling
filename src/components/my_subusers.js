@@ -19,6 +19,7 @@ import "./common.css";
 import "./my_subusers.css";
 import ASSelect from "./as_select";
 export default function MySubusers(props) {
+  const [openSnackbar] = useSnackbar();
   const [data, setData] = React.useState(null);
   const refMenu = React.useRef(null);
   const [showAddUser, setShowAddUser] = React.useState(false);
@@ -154,12 +155,38 @@ export default function MySubusers(props) {
     setOpuser({ ...opuser, show: true, index: idx });
   };
   /// 删除用户
-  const handleDeleteClick = (idx) => {};
+  const handleDeleteClick = (idx) => {
+    setOpuser({ ...opuser, show: false, index: idx });
+    setConfirm({
+      ...confirm,
+      show: true,
+      message: "确定要删除该用户？注意,删除后将无法恢复!",
+      handler: handleConfirmDeleteUser
+    });
+  };
+
+  const handleConfirmDeleteUser = () => {
+    setConfirm({ ...confirm, show: false });
+    http
+      .get(`/sapling/delete_user?username=${data[opuser.idx].username}`)
+      .then((response) => {
+        if (response.data.result === 0) {
+          /// 删除成功
+          let cusers = [...data];
+          cusers.splice(opuser.idx, 1);
+          setTotalRows((prevs) => prevs - 1);
+        } else {
+          openSnackbar(`服务器返回错误代码:${response.data.result}`);
+        }
+      })
+      .catch((e) => openSnackbar(e.toJSON().message));
+  };
 
   const handleConfirmDeleteUsers = () => {
     setConfirm({ ...confirm, show: false });
     setFilter({ ...filter, deleteAll: true });
   };
+
   /// 显示拥有的摄像头列表
   const handleCamsClick = (idx) => {
     if (data[idx].cameras) {

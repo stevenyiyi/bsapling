@@ -9,7 +9,7 @@ import "./common.css";
 export default function MyDevices() {
   const [data, setData] = React.useState(null);
   const [showAddDevice, setShowAddDevice] = React.useState(false);
-  const [openSnackbar] = useSnackbar();
+  const openSnackbar = React.useRef(useSnackbar()[0]);
   const [opdev, setOpdev] = React.useState({
     eshow: false,
     qshow: false,
@@ -29,11 +29,11 @@ export default function MyDevices() {
         if (response.data.result === 0) {
           setData(response.data.devices);
         } else {
-          openSnackbar(`服务器返回错误代码:${response.data.result}`);
+          openSnackbar.current(`服务器返回错误代码:${response.data.result}`);
         }
       })
       .catch((e) => {
-        openSnackbar(e.toJSON().message);
+        openSnackbar.current(e.toJSON().message);
       });
     /// 获取SIP 服务器信息
     http
@@ -42,11 +42,11 @@ export default function MyDevices() {
         if (response.data.result === 0) {
           setSipServerInfo(response.data.info);
         } else {
-          openSnackbar(`服务器返回错误代码:${response.data.result}`);
+          openSnackbar.current(`服务器返回错误代码:${response.data.result}`);
         }
       })
       .catch((e) => {
-        openSnackbar(e.toJSON().message);
+        openSnackbar.current(e.toJSON().message);
       });
   }, []);
 
@@ -94,7 +94,7 @@ export default function MyDevices() {
         <tbody>
           {data &&
             data.map((dev, idx) => (
-              <tr>
+              <tr key={dev.deviceid}>
                 <td>
                   <span
                     className="circle_span"

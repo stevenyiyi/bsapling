@@ -19,7 +19,7 @@ import "./common.css";
 import "./my_subusers.css";
 import ASSelect from "./as_select";
 export default function MySubusers(props) {
-  const [openSnackbar] = useSnackbar();
+  const openSnackbar = React.useRef(useSnackbar()[0]);
   const [data, setData] = React.useState(null);
   const refMenu = React.useRef(null);
   const [showAddUser, setShowAddUser] = React.useState(false);
@@ -28,17 +28,23 @@ export default function MySubusers(props) {
     message: "",
     handler: undefined
   });
+  /// 查询状态参数
   const [likely, setLikely] = React.useState("");
   const [filter, setFilter] = React.useState({
     deviceid: "",
     likely: "",
-    overdue: false,
-    deleteAll: false
+    overdue: false
   });
+  /// 删除所有的子用户状态参数
+  const [deleteSubusers, setDeleteSubusers] = React.useState(false);
+
+  const UserOP = Object.freeze({ edit: 0, delete: 1, unknown: 2 });
+
   const [opuser, setOpuser] = React.useState({
-    show: false,
+    op: UserOP.unknown,
     index: 0
   });
+
   const [totalRows, setTotalRows] = React.useState(0);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -80,19 +86,16 @@ export default function MySubusers(props) {
           }));
           setData(mdata);
           /// reset
-          if (filter.deleteAll) {
-            filter.deleteAll = false;
-          }
           if (filter.overdue) {
             filter.overdue = false;
           }
           togglePage();
         } else {
-          console.log(`Error code:${response.data.result}`);
+          openSnackbar.current(`Error code:${response.data.result}`);
         }
       })
       .catch((e) => {
-        console.log(e.toJSON().message);
+        openSnackbar.current(e.toJSON().message);
         togglePage();
       });
   }, [filter, page, rowsPerPage, togglePage]);
@@ -105,6 +108,25 @@ export default function MySubusers(props) {
       })
       .catch((e) => console.error("error:", e));
   }, []);
+
+  React.useEffect(() => {
+    if (deleteSubusers) {
+      http
+        .get("/sapling/delete_all_subusers")
+        .then((response) => {
+          if (response.data.result === 0) {
+            setData([]);
+            setTotalRows(0);
+            setDeleteSubusers(false);
+          } else {
+            openSnackbar.current(
+              `delete_all_subusers, server response error code:${response.data.result}`
+            );
+          }
+        })
+        .catch((e) => openSnackbar.current(e.toJSON().message));
+    }
+  }, [deleteSubusers]);
 
   const genCamList = (idx) => {
     return (
@@ -152,11 +174,11 @@ export default function MySubusers(props) {
   };
   /// 修改用户
   const handleEditClick = (idx) => {
-    setOpuser({ ...opuser, show: true, index: idx });
+    setOpuser({ ...opuser, op: UserOP.edit, index: idx });
   };
   /// 删除用户
   const handleDeleteClick = (idx) => {
-    setOpuser({ ...opuser, show: false, index: idx });
+    setOpuser({ ...opuser, op: UserOP.delete, index: idx });
     setConfirm({
       ...confirm,
       show: true,
@@ -168,12 +190,12 @@ export default function MySubusers(props) {
   const handleConfirmDeleteUser = () => {
     setConfirm({ ...confirm, show: false });
     http
-      .get(`/sapling/delete_user?username=${data[opuser.idx].username}`)
+      .get(`/sapling/delete_user?username=${data[opuser.index].username}`)
       .then((response) => {
         if (response.data.result === 0) {
           /// 删除成功
           let cusers = [...data];
-          cusers.splice(opuser.idx, 1);
+          cusers.splice(opuser.index, 1);
           setTotalRows((prevs) => prevs - 1);
         } else {
           openSnackbar(`服务器返回错误代码:${response.data.result}`);
@@ -184,7 +206,7 @@ export default function MySubusers(props) {
 
   const handleConfirmDeleteUsers = () => {
     setConfirm({ ...confirm, show: false });
-    setFilter({ ...filter, deleteAll: true });
+    setDeleteSubusers(true);
   };
 
   /// 显示拥有的摄像头列表
@@ -368,10 +390,10 @@ export default function MySubusers(props) {
       />
       {data && (
         <ModifySubuser
-          show={opuser.show}
+          show={opuser.op === UserOP.edit}
           cameras={myCameras}
           user={data[opuser.index]}
-          onClose={() => setOpuser({ ...opuser, show: false })}
+          onClose={() => setOpuser({ ...opuser, op: UserOP.unknown })}
           onChange={onModifyUser}
         />
       )}

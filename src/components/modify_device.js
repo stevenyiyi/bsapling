@@ -137,7 +137,7 @@ export default function ModifyDevice(props) {
             <tbody>
               {channels &&
                 channels.map((cam) => (
-                  <tr>
+                  <tr key={cam.deviceid}>
                     <td>{cam.deviceid.substring(18)}</td>
                     <td>{cam.deviceid}</td>
                     <td>

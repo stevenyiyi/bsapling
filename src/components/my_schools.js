@@ -1,8 +1,9 @@
 import React from "react";
-import { FaPen } from "react-icons/fa";
+import { FaPen, FaFileExport } from "react-icons/fa";
 import ModifySchool from "./modify_school";
 import AddSchool from "./add_school";
 import http from "../http_common";
+import { useSnackbar } from "./use_snackbar";
 import "./common.css";
 export default function MySchools(props) {
   const [data, setData] = React.useState([]);
@@ -11,6 +12,14 @@ export default function MySchools(props) {
     show: false
   });
   const [addSchoolShow, setAddSchoolShow] = React.useState(false);
+  /// 导出用户状态参数
+  const [exportState, setExportState] = React.useState({
+    export: false,
+    schoolid: "",
+    furl: ""
+  });
+
+  const refOpenSnackbar = React.useRef(useSnackbar()[0]);
   React.useEffect(() => {
     http
       .get("/sapling/get_schools")
@@ -18,14 +27,38 @@ export default function MySchools(props) {
         if (response.data.result === 0) {
           setData(response.data.schools);
         } else {
-          console.log(`服务器返回错误:${response.data.result}`);
+          refOpenSnackbar.current(`服务器返回错误:${response.data.result}`);
         }
       })
-      .catch((e) => console.error("Error:", e));
+      .catch((e) => refOpenSnackbar.current(e.toJSON().message));
   }, []);
 
+  React.useEffect(() => {
+    if (exportState.export) {
+      http
+        .get(`/sapling/export_subusers?schoolid=${exportState.schoolid}`)
+        .then((response) => {
+          if (response.data.result === 0) {
+            /// 导出成功
+            let a = document.createElement("a");
+            a.href = response.data.furl;
+            a.download = "download";
+            a.click();
+          } else {
+            refOpenSnackbar.current(`服务器返回错误:${response.data.result}`);
+          }
+        })
+        .catch((e) => refOpenSnackbar.current(e.toJSON().message));
+    }
+  }, [exportState]);
+  /// 修改学校信息
   const handleEditClick = (idx) => {
     setEdschool({ ...edschool, index: idx, show: true });
+  };
+
+  /// 导出学校信息
+  const handleExportClick = (idx) => {
+    setExportState({ ...exportState, export: true, index: idx });
   };
 
   const handleAddClick = (event) => {
@@ -63,6 +96,12 @@ export default function MySchools(props) {
                     onClick={(e) => handleEditClick(idx)}
                   >
                     <FaPen />
+                  </span>
+                  <span
+                    className="circle_span"
+                    onClick={(e) => handleExportClick(idx)}
+                  >
+                    <FaFileExport />
                   </span>
                 </td>
                 <td>{el.schoolid}</td>

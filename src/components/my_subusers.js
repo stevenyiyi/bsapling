@@ -37,7 +37,6 @@ export default function MySubusers(props) {
   });
   /// 删除所有的子用户状态参数
   const [deleteSubusers, setDeleteSubusers] = React.useState(false);
-
   const UserOP = Object.freeze({ edit: 0, delete: 1, unknown: 2 });
 
   const [opuser, setOpuser] = React.useState({
@@ -117,6 +116,8 @@ export default function MySubusers(props) {
           if (response.data.result === 0) {
             setData([]);
             setTotalRows(0);
+            setPage(0);
+            togglePage();
             setDeleteSubusers(false);
           } else {
             openSnackbar.current(
@@ -126,7 +127,7 @@ export default function MySubusers(props) {
         })
         .catch((e) => openSnackbar.current(e.toJSON().message));
     }
-  }, [deleteSubusers]);
+  }, [deleteSubusers, togglePage]);
 
   const genCamList = (idx) => {
     return (
@@ -172,6 +173,7 @@ export default function MySubusers(props) {
     });
     refMenu.current.classList.toggle("show");
   };
+
   /// 修改用户
   const handleEditClick = (idx) => {
     setOpuser({ ...opuser, op: UserOP.edit, index: idx });
@@ -187,6 +189,7 @@ export default function MySubusers(props) {
     });
   };
 
+  /// 确认删除所有的子用户
   const handleConfirmDeleteUser = () => {
     setConfirm({ ...confirm, show: false });
     http
@@ -285,7 +288,6 @@ export default function MySubusers(props) {
             <div className="item" onClick={handleDeleteUsers}>
               删除所有用户
             </div>
-            <div className="item">导出数据</div>
           </div>
         </div>
       </div>

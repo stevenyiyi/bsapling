@@ -1,0 +1,41 @@
+.school_pics_container {
+  display: flex;
+  position: relative;
+  height: 0;
+  padding-top: 56.25%;
+  background-color: whitesmoke;
+}
+
+.school_pic {
+  position: absolute;
+  height: 50%;
+  width: 50%;
+}
+
+.abs_1 {
+  top: 0;
+  left: 0;
+}
+
+.abs_2 {
+  top: 0;
+  left: 50%;
+}
+
+.abs_3 {
+  top: 50%;
+  left: 0;
+}
+.abs_4 {
+  top: 50%;
+  left: 50%;
+}
+
+.school_pic > input {
+  display: none;
+}
+
+.school_pic img {
+  width: 100%;
+  cursor: pointer;
+}

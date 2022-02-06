@@ -9,13 +9,15 @@ import http from "../http_common";
 import { getRandomInt } from "../utils/utils";
 import "./common.css";
 import "./floating_label.css";
+import "./school_pics.css";
 const AddSchool = (props) => {
   const { show, onClose, onChange } = props;
   const [form, setForm] = React.useState({});
-  const [selectFiles, setSelectFiles] = React.useState([]);
+  const [selectFiles, setSelectFiles] = React.useState(new Array(4));
   const [isLoading, setIsLoading] = React.useState(false);
   const [percentage, setPercentage] = React.useState(0);
   const [message, setMessage] = React.useState({ show: false, text: "" });
+  const [refPics, setRefPics] = React.useState(new Array(4));
   const refConfirm = React.useRef(null);
   const setField = (field, value) => {
     setForm({
@@ -23,7 +25,17 @@ const AddSchool = (props) => {
       [field]: value
     });
   };
+
   const gb2260 = new GBT2260("201907", Data201907);
+
+  React.useEffect(() => {
+    // add or remove refs
+    setRefPics((elPicRefs) =>
+      Array(4)
+        .fill()
+        .map((_, i) => elPicRefs[i] || React.createRef())
+    );
+  }, []);
 
   const genPrefectures = (provinceCode) => {
     return provinceCode ? gb2260.prefectures(provinceCode) : [];
@@ -68,7 +80,18 @@ const AddSchool = (props) => {
   };
 
   const handleSelectFiles = (event) => {
-    setSelectFiles([...event.target.files]);
+    const selectFile = event.target.files[0];
+    if (!selectFile) return;
+    if (selectFile.size >= 1024 * 1024) {
+      alert("选择的文件不能超过1MB,请调低图片的分辨率!");
+      return;
+    }
+    let cfiles = [...selectFiles];
+    let idx = parseInt(event.target.id.charAt(event.target.id.length - 1), 10);
+    cfiles[idx - 1] = selectFile;
+    setSelectFiles(cfiles);
+    console.log(idx - 1);
+    refPics[idx - 1].current.src = URL.createObjectURL(selectFile);
   };
 
   const generateSchoolid = () => {
@@ -180,19 +203,72 @@ const AddSchool = (props) => {
             请输入幼儿园名称
           </label>
         </div>
-        <label htmlFor="select-multi-school-pics">选择多个幼儿园图片文件</label>
-        <input
-          type="file"
-          id="select-multi-school-pics"
-          name="select-multi-school-pics"
-          multiple
-          accept="image/png, image/jpeg"
-          onChange={handleSelectFiles}
-        />
-        <br />
         <label className="note" htmlFor="select-multi-school-pics">
           注意：上传的文件必须是JPG或PNG格式，选择的文件数不能超过4个
         </label>
+        <div className="school_pics_container">
+          <div className="school_pic abs_1">
+            <label for="school_pic_upload_1">
+              <img
+                ref={refPics[0]}
+                src="https://localhost/imgs/16by9.png"
+                alt="第一张图"
+              />
+            </label>
+            <input
+              type="file"
+              id="school_pic_upload_1"
+              accept="image/png, image/jpeg"
+              onChange={handleSelectFiles}
+            />
+          </div>
+          <div className="school_pic abs_2">
+            <label for="school_pic_upload_2">
+              <img
+                ref={refPics[1]}
+                src="https://localhost/imgs/16by9.png"
+                alt="第二张图"
+              />
+            </label>
+            <input
+              type="file"
+              id="school_pic_upload_2"
+              accept="image/png, image/jpeg"
+              onChange={handleSelectFiles}
+            />
+          </div>
+          <div className="school_pic abs_3">
+            <label for="school_pic_upload_3">
+              <img
+                ref={refPics[2]}
+                src="https://localhost/imgs/16by9.png"
+                alt="第三张图"
+              />
+            </label>
+            <input
+              type="file"
+              id="school_pic_upload_3"
+              accept="image/png, image/jpeg"
+              onChange={handleSelectFiles}
+            />
+          </div>
+          <div className="school_pic abs_4">
+            <label for="school_pic_upload_4">
+              <img
+                ref={refPics[3]}
+                src="https://localhost/imgs/16by9.png"
+                alt="第四张图"
+              />
+            </label>
+            <input
+              type="file"
+              id="school_pic_upload_4"
+              accept="image/png, image/jpeg"
+              onChange={handleSelectFiles}
+            />
+          </div>
+        </div>
+
         <textarea
           as="textarea"
           placeholder="请输入幼儿园介绍说明"

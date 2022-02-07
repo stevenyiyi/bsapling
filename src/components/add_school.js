@@ -28,15 +28,6 @@ const AddSchool = (props) => {
 
   const gb2260 = new GBT2260("201907", Data201907);
 
-  React.useEffect(() => {
-    // add or remove refs
-    setRefPics((elPicRefs) =>
-      Array(4)
-        .fill()
-        .map((_, i) => elPicRefs[i] || React.createRef())
-    );
-  }, []);
-
   const genPrefectures = (provinceCode) => {
     return provinceCode ? gb2260.prefectures(provinceCode) : [];
   };
@@ -70,6 +61,14 @@ const AddSchool = (props) => {
     return true;
   };
 
+  React.useEffect(() => {
+    // add or remove refs
+    setRefPics((elPicRefs) =>
+      Array(4)
+        .fill()
+        .map((_, i) => elPicRefs[i] || React.createRef())
+    );
+  }, []);
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!formInvalidate()) {
@@ -90,8 +89,8 @@ const AddSchool = (props) => {
     let idx = parseInt(event.target.id.charAt(event.target.id.length - 1), 10);
     cfiles[idx - 1] = selectFile;
     setSelectFiles(cfiles);
-    console.log(idx - 1);
-    refPics[idx - 1].current.src = URL.createObjectURL(selectFile);
+    console.log(event.target.files);
+    refPics[idx - 1].current.src = URL.createObjectURL(event.target.files[0]);
   };
 
   const generateSchoolid = () => {
@@ -114,12 +113,14 @@ const AddSchool = (props) => {
     formData.append("name", form.name);
     formData.append("introduce", form.introduce);
     for (let i = 0; i < selectFiles.length; i++) {
-      let ext = selectFiles[i].name.split(".").pop();
-      formData.append(
-        `image${i}`,
-        selectFiles[i],
-        `${schoolid}_image_${i}.${ext}`
-      );
+      if (selectFiles[i]) {
+        let ext = selectFiles[i].name.split(".").pop();
+        formData.append(
+          `image${i}`,
+          selectFiles[i],
+          `${schoolid}_image_${i}.${ext}`
+        );
+      }
     }
     setIsLoading(true);
     //Set up the config
@@ -203,12 +204,12 @@ const AddSchool = (props) => {
             请输入幼儿园名称
           </label>
         </div>
-        <label className="note" htmlFor="select-multi-school-pics">
-          注意：上传的文件必须是JPG或PNG格式，选择的文件数不能超过4个
+        <label className="note" htmlFor="school_pics_container">
+          注意：上传的图片文件必须是JPG或PNG格式，选择的文件数不能超过4个
         </label>
         <div className="school_pics_container">
           <div className="school_pic abs_1">
-            <label for="school_pic_upload_1">
+            <label htmlFor="school_pic_upload_1">
               <img
                 ref={refPics[0]}
                 src="https://localhost/imgs/16by9.png"
@@ -223,7 +224,7 @@ const AddSchool = (props) => {
             />
           </div>
           <div className="school_pic abs_2">
-            <label for="school_pic_upload_2">
+            <label htmlFor="school_pic_upload_2">
               <img
                 ref={refPics[1]}
                 src="https://localhost/imgs/16by9.png"
@@ -238,7 +239,7 @@ const AddSchool = (props) => {
             />
           </div>
           <div className="school_pic abs_3">
-            <label for="school_pic_upload_3">
+            <label htmlFor="school_pic_upload_3">
               <img
                 ref={refPics[2]}
                 src="https://localhost/imgs/16by9.png"
@@ -253,7 +254,7 @@ const AddSchool = (props) => {
             />
           </div>
           <div className="school_pic abs_4">
-            <label for="school_pic_upload_4">
+            <label htmlFor="school_pic_upload_4">
               <img
                 ref={refPics[3]}
                 src="https://localhost/imgs/16by9.png"

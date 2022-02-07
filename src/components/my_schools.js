@@ -15,8 +15,7 @@ export default function MySchools(props) {
   /// 导出用户状态参数
   const [exportState, setExportState] = React.useState({
     export: false,
-    schoolid: "",
-    furl: ""
+    schoolid: ""
   });
 
   const refOpenSnackbar = React.useRef(useSnackbar()[0]);
@@ -36,7 +35,7 @@ export default function MySchools(props) {
   React.useEffect(() => {
     if (exportState.export) {
       http
-        .get(`/sapling/export_subusers?schoolid=${exportState.schoolid}`)
+        .get(`/sapling/export_school?schoolid=${exportState.schoolid}`)
         .then((response) => {
           if (response.data.result === 0) {
             /// 导出成功
@@ -58,7 +57,11 @@ export default function MySchools(props) {
 
   /// 导出学校信息
   const handleExportClick = (idx) => {
-    setExportState({ ...exportState, export: true, index: idx });
+    setExportState({
+      ...exportState,
+      export: true,
+      schoolid: data[idx].schoolid
+    });
   };
 
   const handleAddClick = (event) => {

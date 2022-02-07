@@ -1,27 +1,44 @@
 import React from "react";
 import http from "../http_common";
 import Modal from "./modal";
+import ASTooltip from "./as_tootip";
+import Progressbar from "./progressbar";
 import "./common.css";
 import "./floating_label.css";
 import "./school_pics.css";
+
 export default function ModifySchool(props) {
   const { show, school, onClose, onChange } = props;
   const [name, setName] = React.useState("");
   const [introduce, setIntroduce] = React.useState("");
   const [selectFiles, setSelectFiles] = React.useState(new Array(4));
   const [refPics, setRefPics] = React.useState(new Array(4));
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [percentage, setPercentage] = React.useState(0);
+  const [message, setMessage] = React.useState({ show: false, text: "" });
+  const refConfirm = React.useRef();
   React.useEffect(() => {
     if (school) {
       setName(school.name);
       setIntroduce(school.introduce);
-      // add or remove refs
-      setRefPics((elPicRefs) =>
-        Array(4)
-          .fill()
-          .map((_, i) => elPicRefs[i] || React.createRef())
-      );
+      const pics = school.photo.split(",");
+      for (const pic of pics) {
+        let fname = pic.substr(0, pic.lastIndexOf("."));
+        let idx = parseInt(fname.charAt(fname.length - 1), 10);
+        console.log(pic);
+        refPics[idx].current.src = `https://localhost/imgs/${pic}`;
+      }
     }
-  }, [school]);
+  }, [school, refPics]);
+
+  React.useEffect(() => {
+    // add or remove refs
+    setRefPics((elPicRefs) =>
+      Array(4)
+        .fill()
+        .map((_, i) => elPicRefs[i] || React.createRef())
+    );
+  }, []);
 
   const handleSelectFiles = (event) => {
     const selectFile = event.target.files[0];
@@ -41,29 +58,55 @@ export default function ModifySchool(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     let uschool = { ...school };
-    let mfields = {};
-    mfields.schoolid = school.schoolid;
-    mfields.changes = [];
+    let mfields = new FormData();
+    mfields.append("schoolid", school.schoolid);
+
     if (school.name !== name) {
-      mfields.changes.push({ name: "name", value: name });
+      mfields.append("name", name);
       uschool.name = name;
     }
+
     if (school.introduce !== introduce) {
-      mfields.changes.push({ name: "introduce", vlaue: introduce });
+      mfields.append("introduce", introduce);
       uschool.introduce = introduce;
     }
+
+    for (let i = 0; i < selectFiles.length; i++) {
+      if (selectFiles[i]) {
+        let ext = selectFiles[i].name.split(".").pop();
+        mfields.append(
+          `image${i}`,
+          selectFiles[i],
+          `${school.schoolid}_image_${i}.${ext}`
+        );
+      }
+    }
+
     if (mfields.changes.length === 0) return;
 
     http
       .post("/sapling/modify_school", mfields)
       .then((response) => {
         if (response.data.result === 0) {
+          setIsLoading(false);
+          setPercentage(0);
           /// Modify successed!
           onChange(uschool);
           onClose();
+        } else {
+          setIsLoading(false);
+          setMessage({
+            ...message,
+            show: true,
+            text: `错误代码：${response.data.result}`
+          });
         }
       })
-      .catch((e) => console.error("Error:", e));
+      .catch((e) => {
+        setIsLoading(false);
+        setPercentage(0);
+        setMessage({ ...message, show: true, text: e.toJSON().message });
+      });
   };
   return (
     <Modal title="修改幼儿园信息" show={show} onClose={onClose}>
@@ -84,7 +127,7 @@ export default function ModifySchool(props) {
         </div>
         <div className="school_pics_container">
           <div className="school_pic abs_1">
-            <label for="school_pic_upload_1">
+            <label htmlFor="modify_school_pic_upload_1">
               <img
                 ref={refPics[0]}
                 src="https://localhost/imgs/16by9.png"
@@ -93,13 +136,13 @@ export default function ModifySchool(props) {
             </label>
             <input
               type="file"
-              id="school_pic_upload_1"
+              id="modify_school_pic_upload_1"
               accept="image/png, image/jpeg"
               onChange={handleSelectFiles}
             />
           </div>
           <div className="school_pic abs_2">
-            <label for="school_pic_upload_2">
+            <label htmlFor="modify_school_pic_upload_2">
               <img
                 ref={refPics[1]}
                 src="https://localhost/imgs/16by9.png"
@@ -108,13 +151,13 @@ export default function ModifySchool(props) {
             </label>
             <input
               type="file"
-              id="school_pic_upload_2"
+              id="modify_school_pic_upload_2"
               accept="image/png, image/jpeg"
               onChange={handleSelectFiles}
             />
           </div>
           <div className="school_pic abs_3">
-            <label for="school_pic_upload_3">
+            <label htmlFor="modify_school_pic_upload_3">
               <img
                 ref={refPics[2]}
                 src="https://localhost/imgs/16by9.png"
@@ -123,13 +166,13 @@ export default function ModifySchool(props) {
             </label>
             <input
               type="file"
-              id="school_pic_upload_3"
+              id="modify_school_pic_upload_3"
               accept="image/png, image/jpeg"
               onChange={handleSelectFiles}
             />
           </div>
           <div className="school_pic abs_4">
-            <label for="school_pic_upload_4">
+            <label htmlFor="modify_school_pic_upload_4">
               <img
                 ref={refPics[3]}
                 src="https://localhost/imgs/16by9.png"
@@ -138,8 +181,8 @@ export default function ModifySchool(props) {
             </label>
             <input
               type="file"
-              id="school_pic_upload_4"
-              accept="image/png, image/jpeg"
+              id="modify_school_pic_upload_4"
+              accept="image/png,image/jpeg"
               onChange={handleSelectFiles}
             />
           </div>
@@ -149,9 +192,27 @@ export default function ModifySchool(props) {
           placeholder="幼儿园介绍说明"
           onChange={(e) => setIntroduce(e.target.value)}
         />
-        <button type="submit" onClick={handleSubmit}>
-          修 改
-        </button>
+        {!isLoading ? (
+          <button
+            ref={refConfirm}
+            type="submit"
+            disabled={isLoading}
+            className="tooltip"
+            onClick={handleSubmit}
+          >
+            修 改
+            <ASTooltip
+              placement="top"
+              show={message.show}
+              delay={5000}
+              onClose={() => setMessage({ ...message, show: false })}
+            >
+              {message.text}
+            </ASTooltip>
+          </button>
+        ) : (
+          <Progressbar now={percentage} />
+        )}
       </div>
     </Modal>
   );

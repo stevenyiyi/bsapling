@@ -40,7 +40,7 @@ export default function RecipeInfo() {
   };
 
   const handleSubmit = (event) => {
-    event.defaultPrevent();
+    event.preventDefault();
     let req = { schoolid: schoolid, recipes: form };
     http
       .post("/sapling/post_recipes", req)

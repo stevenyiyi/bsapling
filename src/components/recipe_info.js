@@ -20,7 +20,7 @@ export default function RecipeInfo() {
   React.useEffect(() => {
     if (schoolid) {
       http
-        .get(`/sapling/get_recipes?shcoolid=${schoolid}`)
+        .get(`/sapling/get_recipes?schoolid=${schoolid}`)
         .then((response) => {
           if (response.data.result === 0) {
             if (response.data.recipes) {
@@ -41,7 +41,7 @@ export default function RecipeInfo() {
 
   const handleSubmit = (event) => {
     event.defaultPrevent();
-    let req = { shcoolid: schoolid, recipes: form };
+    let req = { schoolid: schoolid, recipes: form };
     http
       .post("/sapling/post_recipes", req)
       .then((response) => {

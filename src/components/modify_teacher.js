@@ -115,13 +115,13 @@ export default function ModifyTeacher(props) {
             <figure className="personal-figure">
               <img
                 ref={refAvatar}
-                src="http://localhost/imgs/img_avatar_unknow.png"
+                src="https://localhost/imgs/img_avatar_unknow.png"
                 className="personal-avatar"
                 alt="avatar"
               />
               <figcaption className="personal-figcaption">
                 <img
-                  src="http://localhost/imgs/img_camera_white.png"
+                  src="https://localhost/imgs/img_camera_white.png"
                   alt="avatar-camera"
                 />
               </figcaption>

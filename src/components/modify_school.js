@@ -21,12 +21,15 @@ export default function ModifySchool(props) {
     if (school) {
       setName(school.name);
       setIntroduce(school.introduce);
-      const pics = school.photo.split(",");
-      for (const pic of pics) {
-        let fname = pic.substr(0, pic.lastIndexOf("."));
-        let idx = parseInt(fname.charAt(fname.length - 1), 10);
-        console.log(pic);
-        refPics[idx].current.src = `https://localhost/imgs/${pic}`;
+      if (school.photo) {
+        const pics = school.photo.split(",");
+        for (const pic of pics) {
+          let fname = pic.substr(0, pic.lastIndexOf("."));
+          let idx = parseInt(fname, 10);
+          refPics[
+            idx
+          ].current.src = `https://localhost/imgs/${school.schoolid}_image_${pic}`;
+        }
       }
     }
   }, [school, refPics]);
@@ -82,7 +85,7 @@ export default function ModifySchool(props) {
       }
     }
 
-    if (mfields.changes.length === 0) return;
+    if (mfields.length === 0) return;
 
     http
       .post("/sapling/modify_school", mfields)

@@ -1,6 +1,7 @@
 import React from "react";
 import http from "../http_common";
 import Modal from "./modal";
+import config from "../config.js";
 import "./common.css";
 import "./floating_label.css";
 export default function ModifyStudent(props) {
@@ -16,9 +17,9 @@ export default function ModifyStudent(props) {
       setPhoto(student.photo);
       setEndts(student.end_ts);
       if (student.photo) {
-        refAvatar.current.src = `imgs/${student.photo}`;
+        refAvatar.current.src = `${config.resBaseUrl}/imgs/${student.username}_photo.${student.photo}`;
       } else {
-        refAvatar.current.src = "imgs/img_avatar_unknow.png";
+        refAvatar.current.src = `${config.resBaseUrl}/imgs/img_avatar_unknow.png`;
       }
     }
   }, [student]);
@@ -109,13 +110,13 @@ export default function ModifyStudent(props) {
             <figure className="personal-figure">
               <img
                 ref={refAvatar}
-                src="http://localhost/imgs/img_avatar_unknow.png"
+                src={`${config.resBaseUrl}/imgs/img_avatar_unknow.png`}
                 className="personal-avatar"
                 alt="avatar"
               />
               <figcaption className="personal-figcaption">
                 <img
-                  src="http://localhost/imgs/img_camera_white.png"
+                  src={`${config.resBaseUrl}/imgs/img_camera_white.png`}
                   alt="avatar-camera"
                 />
               </figcaption>

@@ -2,6 +2,7 @@ import React from "react";
 import Modal from "./modal";
 import ASTooltip from "./as_tootip";
 import http from "../http_common";
+import config from "../config";
 import CheckboxMultiSelect from "./multi_select";
 import "./common.css";
 import "./floating_label.css";
@@ -130,13 +131,13 @@ export default function AddTeacher(props) {
             <figure className="personal-figure">
               <img
                 ref={refAvatar}
-                src="http://localhost/imgs/img_avatar_unknow.png"
+                src={`${config.resBaseUrl}/imgs/img_avatar_unknow.png`}
                 className="personal-avatar"
                 alt="avatar"
               />
               <figcaption className="personal-figcaption">
                 <img
-                  src="http://localhost/imgs/img_camera_white.png"
+                  src={`${config.resBaseUrl}/imgs/img_camera_white.png`}
                   alt="avatar-camera"
                 />
               </figcaption>

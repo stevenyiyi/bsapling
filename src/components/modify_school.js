@@ -3,6 +3,7 @@ import http from "../http_common";
 import Modal from "./modal";
 import ASTooltip from "./as_tootip";
 import Progressbar from "./progressbar";
+import config from "../config";
 import "./common.css";
 import "./floating_label.css";
 import "./school_pics.css";
@@ -28,7 +29,7 @@ export default function ModifySchool(props) {
           let idx = parseInt(fname, 10);
           refPics[
             idx
-          ].current.src = `https://localhost/imgs/${school.schoolid}_image_${pic}`;
+          ].current.src = `${config.resBaseUrl}/imgs/${school.schoolid}_image_${pic}`;
         }
       }
     }
@@ -133,7 +134,7 @@ export default function ModifySchool(props) {
             <label htmlFor="modify_school_pic_upload_1">
               <img
                 ref={refPics[0]}
-                src="https://localhost/imgs/16by9.png"
+                src={`${config.resBaseUrl}/imgs/16by9.png`}
                 alt="第一张图"
               />
             </label>
@@ -148,7 +149,7 @@ export default function ModifySchool(props) {
             <label htmlFor="modify_school_pic_upload_2">
               <img
                 ref={refPics[1]}
-                src="https://localhost/imgs/16by9.png"
+                src={`${config.resBaseUrl}/imgs/16by9.png`}
                 alt="第二张图"
               />
             </label>
@@ -163,7 +164,7 @@ export default function ModifySchool(props) {
             <label htmlFor="modify_school_pic_upload_3">
               <img
                 ref={refPics[2]}
-                src="https://localhost/imgs/16by9.png"
+                src={`${config.resBaseUrl}/imgs/16by9.png`}
                 alt="第三张图"
               />
             </label>
@@ -178,7 +179,7 @@ export default function ModifySchool(props) {
             <label htmlFor="modify_school_pic_upload_4">
               <img
                 ref={refPics[3]}
-                src="https://localhost/imgs/16by9.png"
+                src={`${config.resBaseUrl}/imgs/16by9.png`}
                 alt="第四张图"
               />
             </label>

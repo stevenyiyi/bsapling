@@ -2,6 +2,7 @@ import React from "react";
 import Modal from "./modal";
 import http from "../http_common";
 import CheckboxMultiSelect from "./multi_select";
+import config from "../config";
 import "./common.css";
 import "./floating_label.css";
 export default function ModifyTeacher(props) {
@@ -19,9 +20,9 @@ export default function ModifyTeacher(props) {
       setPhoto(teacher.photo);
       setIntroduce(teacher.note);
       if (teacher.photo) {
-        refAvatar.current.src = `imgs/${teacher.photo}`;
+        refAvatar.current.src = `${config.resBaseUrl}/imgs/${teacher.username}_photo.${teacher.photo}`;
       } else {
-        refAvatar.current.src = "imgs/img_avatar_unknow.png";
+        refAvatar.current.src = `${config.resBaseUrl}/imgs/img_avatar_unknow.png`;
       }
     }
   }, [teacher]);
@@ -115,13 +116,13 @@ export default function ModifyTeacher(props) {
             <figure className="personal-figure">
               <img
                 ref={refAvatar}
-                src="https://localhost/imgs/img_avatar_unknow.png"
+                src={`${config.resBaseUrl}/imgs/img_avatar_unknow.png`}
                 className="personal-avatar"
                 alt="avatar"
               />
               <figcaption className="personal-figcaption">
                 <img
-                  src="https://localhost/imgs/img_camera_white.png"
+                  src={`${config.resBaseUrl}/imgs/img_camera_white.png`}
                   alt="avatar-camera"
                 />
               </figcaption>

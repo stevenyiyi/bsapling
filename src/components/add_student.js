@@ -2,6 +2,7 @@ import React from "react";
 import Modal from "./modal";
 import ASSelect from "./as_select";
 import ASTooltip from "./as_tootip";
+import config from "../config";
 import http from "../http_common";
 import "../utils/utils.js";
 import "./common.css";
@@ -143,13 +144,13 @@ export default function AddStudentInfo(props) {
             <figure className="personal-figure">
               <img
                 ref={refAvatar}
-                src="http://localhost/imgs/img_avatar_unknow.png"
+                src={`${config.resBaseUrl}/imgs/img_avatar_unknow.png`}
                 className="personal-avatar"
                 alt="avatar"
               />
               <figcaption className="personal-figcaption">
                 <img
-                  src="http://localhost/imgs/img_camera_white.png"
+                  src={`${config.resBaseUrl}/imgs/img_camera_white.png`}
                   alt="avatar-camera"
                 />
               </figcaption>

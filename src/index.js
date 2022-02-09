@@ -6,6 +6,7 @@ import App from "./App";
 import { default as SnackbarProvider } from "./components/snackbar";
 
 (() => {
+  console.log(process.env.PROD);
   const path = "/sapling/login";
   const user = {
     username: Cookies.get("username"),

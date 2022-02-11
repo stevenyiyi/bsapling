@@ -20,7 +20,7 @@ export default function ModifyTeacher(props) {
       setPhoto(teacher.photo);
       setIntroduce(teacher.note);
       if (teacher.photo) {
-        refAvatar.current.src = `${config.resBaseUrl}/imgs/${teacher.username}_photo.${teacher.photo}`;
+        refAvatar.current.src = `${config.resBaseUrl}/imgs/${teacher.username}.${teacher.photo}`;
       } else {
         refAvatar.current.src = `${config.resBaseUrl}/imgs/img_avatar_unknow.png`;
       }
@@ -61,7 +61,7 @@ export default function ModifyTeacher(props) {
 
     if (teacher.photo !== photo) {
       let ext = photo.name.split(".").pop();
-      let upload_file = `${teacher.username}_photo.${ext}`;
+      let upload_file = `${teacher.username}.${ext}`;
       uteacher.photo = upload_file;
       mfields.append("photo", photo, upload_file);
     }

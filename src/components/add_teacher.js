@@ -47,7 +47,11 @@ export default function AddTeacher(props) {
     formData.append("role", "teacher");
     formData.append("telphone", form.telphone);
     formData.append("introduce", form.introduce);
-    formData.append("photo", form.photo);
+    if (form.photo) {
+      let ext = form.photo.name.split(".").pop();
+      let upload_file = `${form.telphone}.${ext}`;
+      formData.append("photo", form.photo, upload_file);
+    }
     http
       .post("/sapling/add_subuser", formData)
       .then((response) => {

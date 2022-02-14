@@ -72,6 +72,7 @@ export default function MySubusers(props) {
       current_page: page,
       rows_per_page: rowsPerPage
     };
+    togglePage();
     http
       .post("/sapling/get_subusers", qparams)
       .then((response) => {
@@ -223,14 +224,12 @@ export default function MySubusers(props) {
 
   /// 移到下一页
   const handleNextPage = (event) => {
-    event.preventDefault();
     setPage((prev) => prev + 1);
     togglePage();
   };
 
   /// 移动上一页
   const handlePrevPage = (event) => {
-    event.preventDefault();
     setPage((prev) => prev - 1);
     togglePage();
   };

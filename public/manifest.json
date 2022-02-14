@@ -9,7 +9,7 @@
       "type": "image/icon"
     }
   ],
-  "name": "WebAnysee",
+  "name": "AnyseeBackend",
   "short_name": "AnyseeBackend",
   "start_url": "/index.html"
 }

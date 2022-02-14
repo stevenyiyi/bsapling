@@ -48,21 +48,21 @@ export default function MySubusers(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [myCameras, setMyCameras] = React.useState([]);
-  const refPrev = React.useRef();
-  const refNext = React.useRef();
+  const [nextDisabled, setNextDisabled] = React.useState(true);
+  const [prevDisabled, setPrevDisabled] = React.useState(true);
 
   const togglePage = React.useCallback(() => {
     let total_pages = Math.ceil(totalRows / rowsPerPage);
     console.log(`page:${page},total page:${total_pages}`);
     if (page > 0) {
-      refPrev.current.disabled = false;
+      setPrevDisabled(false);
     } else {
-      refPrev.current.disabled = true;
+      setPrevDisabled(true);
     }
     if (page + 1 < total_pages) {
-      refNext.current.disabled = false;
+      setNextDisabled(false);
     } else {
-      refNext.current.disabled = true;
+      setNextDisabled(true);
     }
   }, [page, rowsPerPage, totalRows]);
 
@@ -224,6 +224,7 @@ export default function MySubusers(props) {
 
   /// 移到下一页
   const handleNextPage = (event) => {
+    console.log("Click next page");
     setPage((prev) => prev + 1);
   };
 
@@ -347,20 +348,18 @@ export default function MySubusers(props) {
       </table>
       <div className="pagination">
         <button
-          ref={refPrev}
           id="prev-page"
+          disabled={prevDisabled}
           className="circle_btn"
-          disabled={true}
           onClick={handlePrevPage}
         >
           <FaAngleLeft />
         </button>
         <button
-          ref={refNext}
+          disabled={nextDisabled}
           id="next-page"
           className="circle_btn"
           style={{ marginLeft: "20px" }}
-          disabled={true}
           onClick={handleNextPage}
         >
           <FaAngleRight />

@@ -1,0 +1,15 @@
+{
+  "background_color": "purple",
+  "description": "Sapling backend.",
+  "display": "fullscreen",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "16x16 32x32 64x64 96x96 128x128 256x256",
+      "type": "image/icon"
+    }
+  ],
+  "name": "WebAnysee",
+  "short_name": "AnyseeBackend",
+  "start_url": "/index.html"
+}

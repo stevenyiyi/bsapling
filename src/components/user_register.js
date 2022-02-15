@@ -38,11 +38,11 @@ export default function UserRegister(props) {
     }
 
     let fdata = new FormData();
-    fdata.append("username", form.telphone);
-    fdata.append("nuck_name", form.name);
+    fdata.append("telphone", form.telphone);
+    fdata.append("name", form.name);
     fdata.append("role", form.role);
     fdata.append("password", form.password);
-    fdata.append("end_ts", form.endts);
+    fdata.append("endts", form.endts);
     fdata.append("cameras", selectedCameras.join());
 
     let newUser = {

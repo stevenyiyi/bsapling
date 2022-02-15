@@ -78,25 +78,8 @@ export default function Login(props) {
   const redirectToHome = () => {
     navigate("/my_schools");
   };
-
   const handleFormInvalid = () => {
     let formIsValid = true;
-    if (
-      !state.username.match(
-        /^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$/
-      )
-    ) {
-      formIsValid = false;
-      setMessage({
-        ...message,
-        show: true,
-        text: "非法的用户名，请输入手机号！"
-      });
-      return formIsValid;
-    } else {
-      formIsValid = true;
-    }
-
     if (!state.password.match(/^[0-9a-zA-Z]{6,22}$/)) {
       formIsValid = false;
       setMessage({
@@ -119,6 +102,7 @@ export default function Login(props) {
           type="text"
           id="username"
           name="username"
+          required
           className="loginInput"
           placeholder="请输入用户名"
           onChange={handleChange}
@@ -127,6 +111,7 @@ export default function Login(props) {
           type="password"
           name="password"
           id="password"
+          required
           className="loginInput mt-20"
           placeholder="请输入口令"
           onChange={handleChange}

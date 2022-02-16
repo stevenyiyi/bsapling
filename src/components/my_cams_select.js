@@ -7,18 +7,6 @@ const MyCamsSelect = React.forwardRef((props, ref) => {
   const { selectedItems, setSelectedItems } = props;
   const [myCameras, setMyCameras] = React.useState([]);
 
-  const getChildren = (item) => {
-    let children = null;
-    let vals = Object.values(item);
-    for (const val of vals) {
-      if (typeof val === "object") {
-        children = val;
-        break;
-      }
-    }
-    return children;
-  };
-
   React.useImperativeHandle(ref, () => ({
     getDeviceName: (deviceid) => {
       let name = "";

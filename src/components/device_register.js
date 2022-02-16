@@ -179,12 +179,14 @@ export default function DeviceRegister(props) {
               name="dev-channels_id"
               type="number"
               className="form__input"
-              defaultValue={16}
+              value={form.channels}
               min="1"
               max="32"
               required
               placeholder=" "
-              onChange={(e) => setField("channels", e.target.value)}
+              onChange={(e) =>
+                setField("channels", Number.parseInt(e.target.value, 10))
+              }
             />
             <label className="form__label" htmlFor="dev-channels_id">
               请选择NVR通道数

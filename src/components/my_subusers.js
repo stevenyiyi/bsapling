@@ -42,7 +42,6 @@ export default function MySubusers(props) {
   });
   /// 删除所有的子用户状态参数
   const [deleteSubusers, setDeleteSubusers] = React.useState(false);
-  const UserOP = Object.freeze({ edit: 0, delete: 1, unknown: 2 });
 
   const [opIndex, setOpIndex] = React.useState(0);
   const [opType, setOpType] = React.useState(OP_UNKNOWN);

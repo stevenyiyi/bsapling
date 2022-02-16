@@ -11,7 +11,18 @@ export default function AddClass(props) {
   const [name, setName] = React.useState("");
   const [selectedCameras, setSelectedCameras] = React.useState([]);
   const [message, setMessage] = React.useState({ show: false, text: "" });
+  const refCams = React.useRef();
 
+  const genAddCams = () => {
+    let cams = [];
+    for (const deviceid of selectedCameras) {
+      cams.push({
+        deviceid: deviceid,
+        name: refCams.current.getDeviceName(deviceid)
+      });
+    }
+    return cams;
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!schoolid || !name || selectedCameras.length === 0) {
@@ -38,7 +49,7 @@ export default function AddClass(props) {
           onChange({
             classid: classid,
             name: name,
-            cameras: selectedCameras
+            cameras: genAddCams()
           });
           setName("");
         } else {
@@ -71,6 +82,7 @@ export default function AddClass(props) {
           </label>
         </div>
         <MyCamsSelect
+          ref={refCams}
           selectedItems={selectedCameras}
           setSelectedItems={setSelectedCameras}
         />

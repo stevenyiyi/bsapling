@@ -19,6 +19,10 @@ import "./common.css";
 import "./my_subusers.css";
 import ASSelect from "./as_select";
 export default function MySubusers(props) {
+  const OP_UNKNOWN = 0;
+  const OP_EDIT = 1;
+  const OP_DELETE = 2;
+
   const openSnackbar = React.useRef(useSnackbar()[0]);
   const [data, setData] = React.useState(null);
   const refMenu = React.useRef(null);
@@ -26,7 +30,8 @@ export default function MySubusers(props) {
   const [confirm, setConfirm] = React.useState({
     show: false,
     message: "",
-    handler: undefined
+    onOK: undefined,
+    onCancel: undefined
   });
   /// 查询状态参数
   const [likely, setLikely] = React.useState("");
@@ -39,10 +44,8 @@ export default function MySubusers(props) {
   const [deleteSubusers, setDeleteSubusers] = React.useState(false);
   const UserOP = Object.freeze({ edit: 0, delete: 1, unknown: 2 });
 
-  const [opuser, setOpuser] = React.useState({
-    op: UserOP.unknown,
-    index: 0
-  });
+  const [opIndex, setOpIndex] = React.useState(0);
+  const [opType, setOpType] = React.useState(OP_UNKNOWN);
 
   const [totalRows, setTotalRows] = React.useState(0);
   const [page, setPage] = React.useState(0);
@@ -110,6 +113,31 @@ export default function MySubusers(props) {
   }, []);
 
   React.useEffect(() => {
+    if (opType === OP_DELETE) {
+      console.log(`Delete user:${data[opIndex].username}`);
+      http
+        .get(`/sapling/delete_user?username=${data[opIndex].username}`)
+        .then((response) => {
+          if (response.data.result === 0) {
+            /// 删除成功
+            let cusers = [...data];
+            cusers.splice(opIndex, 1);
+            setData(cusers);
+            setTotalRows((prevs) => prevs - 1);
+            setOpType(OP_UNKNOWN);
+          } else {
+            openSnackbar.current(`服务器返回错误代码:${response.data.result}`);
+            setOpType(OP_UNKNOWN);
+          }
+        })
+        .catch((e) => {
+          setOpType(OP_UNKNOWN);
+          openSnackbar.current(e.toJSON().message);
+        });
+    }
+  }, [opIndex, opType, data]);
+
+  React.useEffect(() => {
     if (deleteSubusers) {
       http
         .get("/sapling/delete_all_subusers")
@@ -170,42 +198,39 @@ export default function MySubusers(props) {
       ...confirm,
       show: true,
       message: "确定要删除所有的用户？注意,删除后将无法恢复!",
-      handler: handleConfirmDeleteUsers
+      onOK: handleConfirmDeleteUsers,
+      onCancel: () => setConfirm({ ...confirm, show: false })
     });
     refMenu.current.classList.toggle("show");
   };
 
   /// 修改用户
   const handleEditClick = (idx) => {
-    setOpuser({ ...opuser, op: UserOP.edit, index: idx });
+    setOpType(OP_EDIT);
+    setOpIndex(idx);
   };
+
   /// 删除用户
   const handleDeleteClick = (idx) => {
-    setOpuser({ ...opuser, op: UserOP.delete, index: idx });
+    setOpIndex(idx);
     setConfirm({
       ...confirm,
       show: true,
-      message: "确定要删除该用户？注意,删除后将无法恢复!",
-      handler: handleConfirmDeleteUser
+      message: `确定要删除用户:${data[idx].nick_name}？注意,删除后将无法恢复!`,
+      onOK: handleConfirmDeleteUser,
+      onCancel: handleCancelDeleteUser
     });
   };
 
-  /// 确认删除所有的子用户
+  /// 确认删除指定的子用户
   const handleConfirmDeleteUser = () => {
     setConfirm({ ...confirm, show: false });
-    http
-      .get(`/sapling/delete_user?username=${data[opuser.index].username}`)
-      .then((response) => {
-        if (response.data.result === 0) {
-          /// 删除成功
-          let cusers = [...data];
-          cusers.splice(opuser.index, 1);
-          setTotalRows((prevs) => prevs - 1);
-        } else {
-          openSnackbar(`服务器返回错误代码:${response.data.result}`);
-        }
-      })
-      .catch((e) => openSnackbar(e.toJSON().message));
+    setOpType(OP_DELETE);
+  };
+
+  /// 终止删除指定用户
+  const handleCancelDeleteUser = () => {
+    setConfirm({ ...confirm, show: false });
   };
 
   const handleConfirmDeleteUsers = () => {
@@ -241,7 +266,7 @@ export default function MySubusers(props) {
   /// 修改用户回调
   const onModifyUser = (user) => {
     let cdata = [...data];
-    cdata[opuser.index] = user;
+    cdata[opIndex] = user;
     setData(cdata);
   };
 
@@ -388,20 +413,18 @@ export default function MySubusers(props) {
       />
       {data && (
         <ModifySubuser
-          show={opuser.op === UserOP.edit}
+          show={opType === OP_EDIT}
           cameras={myCameras}
-          user={data[opuser.index]}
-          onClose={() => setOpuser({ ...opuser, op: UserOP.unknown })}
+          user={data[opIndex]}
+          onClose={() => setOpType(OP_UNKNOWN)}
           onChange={onModifyUser}
         />
       )}
       <Confirm
         show={confirm.show}
         message={confirm.message}
-        onCancel={() => {
-          setConfirm({ ...confirm, show: false });
-        }}
-        onOK={confirm.handler}
+        onCancel={confirm.onCancel}
+        onOK={confirm.onOK}
       />
     </div>
   );

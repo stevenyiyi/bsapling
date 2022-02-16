@@ -3,9 +3,48 @@ import PropTypes from "prop-types";
 import CheckboxMultiSelect from "./multi_select";
 import http from "../http_common";
 
-export default function MyCamsSelect(props) {
+const MyCamsSelect = React.forwardRef((props, ref) => {
   const { selectedItems, setSelectedItems } = props;
   const [myCameras, setMyCameras] = React.useState([]);
+
+  const getChildren = (item) => {
+    let children = null;
+    let vals = Object.values(item);
+    for (const val of vals) {
+      if (typeof val === "object") {
+        children = val;
+        break;
+      }
+    }
+    return children;
+  };
+
+  React.useImperativeHandle(ref, () => ({
+    getDeviceName: (deviceid) => {
+      let name = "";
+      console.log(myCameras);
+      let found = false;
+      for (const dev of myCameras) {
+        if (dev.deviceid.substr(10, 3) === "111") {
+          for (const cam of dev.cameras) {
+            if (cam.deviceid === deviceid) {
+              name = cam.name;
+              found = true;
+              break;
+            }
+          }
+        } else {
+          if (dev.deviceid === deviceid) {
+            name = dev.name;
+            found = true;
+          }
+        }
+        if (found) break;
+      }
+      console.log(`getDeviceName by:${deviceid},name:${name}`);
+      return name;
+    }
+  }));
 
   React.useEffect(() => {
     http
@@ -27,7 +66,7 @@ export default function MyCamsSelect(props) {
       kvmap={{ key: "deviceid", value: "name" }}
     />
   );
-}
+});
 
 MyCamsSelect.propTypes = {
   selectedItems: PropTypes.array,
@@ -38,3 +77,5 @@ MyCamsSelect.defaultProps = {
   selectedItems: [],
   setSelectedItems: (cams) => {}
 };
+
+export default MyCamsSelect;

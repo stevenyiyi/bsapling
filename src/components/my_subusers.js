@@ -49,7 +49,6 @@ export default function MySubusers(props) {
   const [totalRows, setTotalRows] = React.useState(0);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [myCameras, setMyCameras] = React.useState([]);
   const [nextDisabled, setNextDisabled] = React.useState(true);
   const [prevDisabled, setPrevDisabled] = React.useState(true);
 
@@ -101,15 +100,6 @@ export default function MySubusers(props) {
         togglePage();
       });
   }, [filter, page, rowsPerPage, togglePage]);
-
-  React.useEffect(() => {
-    http
-      .post("/sapling/get_my_cameras")
-      .then((response) => {
-        setMyCameras(response.data.cameras);
-      })
-      .catch((e) => console.error("error:", e));
-  }, []);
 
   React.useEffect(() => {
     if (opType === OP_DELETE) {
@@ -406,14 +396,12 @@ export default function MySubusers(props) {
       </div>
       <UserRegister
         show={showAddUser}
-        cameras={myCameras}
         onClose={() => setShowAddUser(false)}
         onChange={onAddUser}
       />
       {data && (
         <ModifySubuser
           show={opType === OP_EDIT}
-          cameras={myCameras}
           user={data[opIndex]}
           onClose={() => setOpType(OP_UNKNOWN)}
           onChange={onModifyUser}

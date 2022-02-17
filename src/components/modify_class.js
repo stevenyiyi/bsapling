@@ -3,14 +3,14 @@ import { PropTypes } from "prop-types";
 
 import Modal from "./modal";
 import http from "../http_common";
-import CheckboxMultiSelect from "./multi_select";
+import MyCamsSelect from "./my_cams_select";
 import "./common.css";
 import "./floating_label.css";
 export default function ModifyClass(props) {
-  const { schoolid, show, cameras, classinfo, onClose, onChange } = props;
+  const { schoolid, show, classinfo, onClose, onChange } = props;
   const [name, setName] = React.useState("");
   const [selectedCameras, setSelectedCameras] = React.useState([]);
-
+  const refCams = React.useRef();
   console.log("modify class render!");
   const prevCameras = React.useMemo(
     () => classinfo.cameras.map((cam) => cam.deviceid),
@@ -23,22 +23,6 @@ export default function ModifyClass(props) {
       setSelectedCameras(prevCameras);
     }
   }, [classinfo, prevCameras]);
-
-  const getDeviceName = (deviceid) => {
-    for (const cam of cameras) {
-      if (cam.deviceid === deviceid) {
-        return cam.name;
-      }
-      if (cam.cameras) {
-        for (const ccam of cam.cameras) {
-          if (ccam.deviceid === deviceid) {
-            return ccam.name;
-          }
-        }
-      }
-    }
-    return "";
-  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -58,7 +42,7 @@ export default function ModifyClass(props) {
       let cams = [];
       for (const deviceid of selectedCameras) {
         let cam = { deviceid: deviceid, name: "" };
-        cam.name = getDeviceName(deviceid);
+        cam.name = refCams.getDeviceName(deviceid);
         cams.push(cam);
       }
       uclass.cameras = cams;
@@ -83,12 +67,10 @@ export default function ModifyClass(props) {
   return (
     <Modal title="修改班级信息" show={show} onClose={onClose}>
       <div className="formContainer">
-        <CheckboxMultiSelect
-          title="选择摄像头"
-          items={cameras}
+        <MyCamsSelect
+          ref={refCams}
           selectedItems={selectedCameras}
           setSelectedItems={setSelectedCameras}
-          kvmap={{ key: "deviceid", value: "name" }}
         />
         <div className="form__div">
           <input

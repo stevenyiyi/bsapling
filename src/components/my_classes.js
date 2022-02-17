@@ -15,7 +15,6 @@ export default function MyClasses(props) {
   });
   const [addClassShow, setAddClassShow] = React.useState(false);
   const [message, setMessage] = React.useState({ show: false, text: "" });
-  const [myCameras, setMyCameras] = React.useState([]);
   const refConfirm = React.useRef(null);
   React.useEffect(() => {
     if (schoolid) {
@@ -42,16 +41,6 @@ export default function MyClasses(props) {
     }
   }, [schoolid, message]);
 
-  React.useEffect(() => {
-    http
-      .post("/sapling/get_my_cameras")
-      .then((response) => {
-        setMyCameras(response.data.cameras);
-      })
-      .catch((e) =>
-        setMessage({ ...message, show: true, text: e.toJSON().message })
-      );
-  }, []);
   const handleEditClick = (idx) => {
     setEdclass({ ...edClass, index: idx, show: true });
   };
@@ -170,7 +159,6 @@ export default function MyClasses(props) {
         <ModifyClass
           schoolid={schoolid}
           show={edClass.show}
-          cameras={myCameras}
           classinfo={data[edClass.index]}
           onClose={() => setEdclass({ ...edClass, show: false })}
           onChange={handleModifyClass}

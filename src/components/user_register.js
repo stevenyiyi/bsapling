@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "./modal";
-import CheckboxMultiSelect from "./multi_select";
+import MyCamsSelect from "./my_cams_select";
 import ASSelect from "./as_select";
 import MySchoolsSelect from "./my_schools_select";
 import http from "../http_common";
@@ -9,7 +9,7 @@ import { UserContext } from "../user_context";
 import "./common.css";
 import "./floating_label.css";
 export default function UserRegister(props) {
-  const { show, cameras, onClose, onChange } = props;
+  const { show, onClose, onChange } = props;
   const nowDate = new Date(Date.now() + 180 * 24 * 3600000).Format(
     "yyyy-MM-dd"
   );
@@ -23,6 +23,7 @@ export default function UserRegister(props) {
   });
   const [selectedCameras, setSelectedCameras] = React.useState([]);
   const [message, setMessage] = React.useState({ show: false, text: "" });
+  const refCams = React.useRef();
   const userCtx = React.useContext(UserContext);
   const setField = (field, value) => {
     setForm({ ...form, [field]: value });
@@ -74,8 +75,7 @@ export default function UserRegister(props) {
         if (response.data.result === 0) {
           setMessage({ ...message, show: true, text: "新增幼儿信息成功!" });
           onChange(newUser);
-          setField("telphone", "");
-          setField("name", "");
+          setForm({ ...form, telphone: "", name: "" });
         } else {
           setMessage({
             ...message,
@@ -130,12 +130,10 @@ export default function UserRegister(props) {
           selectedKey="watcher"
           onChange={(val) => setField("role", val)}
         />
-        <CheckboxMultiSelect
-          title="选择摄像头"
-          items={cameras}
+        <MyCamsSelect
+          ref={refCams}
           selectedItems={selectedCameras}
           setSelectedItems={setSelectedCameras}
-          kvmap={{ key: "deviceid", value: "name" }}
         />
         {form.role === "leader" && (
           <MySchoolsSelect

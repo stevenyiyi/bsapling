@@ -2,17 +2,18 @@ import React from "react";
 import { usePrevious } from "../utils/utils";
 import http from "../http_common";
 import Modal from "./modal";
-import CheckboxMultiSelect from "./multi_select";
+import MyCamsSelect from "./my_cams_select";
 import "./common.css";
 import "./floating_label.css";
 
 export default function ModifySubuser(props) {
-  const { show, cameras, user, onClose, onChange } = props;
+  const { show, user, onClose, onChange } = props;
   const [name, setName] = React.useState("");
   const [endts, setEndts] = React.useState("1970-01-01");
   const [selectedCameras, setSelectedCameras] = React.useState([]);
 
   const prevCams = usePrevious(selectedCameras);
+  const refCams = React.useRef();
   React.useEffect(() => {
     if (user) {
       setName(user.nick_name);
@@ -20,22 +21,6 @@ export default function ModifySubuser(props) {
       setSelectedCameras(user.cameras.map((cam) => cam.deviceid));
     }
   }, [user]);
-
-  const getDeviceName = (deviceid) => {
-    for (const cam of cameras) {
-      if (cam.deviceid === deviceid) {
-        return cam.name;
-      }
-      if (cam.cameras) {
-        for (const ccam of cam.cameras) {
-          if (ccam.deviceid === deviceid) {
-            return ccam.name;
-          }
-        }
-      }
-    }
-    return "";
-  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -57,7 +42,7 @@ export default function ModifySubuser(props) {
       let cams = [];
       for (const deviceid of selectedCameras) {
         let cam = { deviceid: deviceid, name: "" };
-        cam.name = getDeviceName(deviceid);
+        cam.name = refCams.current.getDeviceName(deviceid);
         cams.push(cam);
       }
       uuser.cameras = cams;
@@ -106,12 +91,10 @@ export default function ModifySubuser(props) {
             帐户终止日期
           </label>
         </div>
-        <CheckboxMultiSelect
-          title="选择摄像头"
-          items={cameras}
+        <MyCamsSelect
+          ref={refCams}
           selectedItems={selectedCameras}
           setSelectedItems={setSelectedCameras}
-          kvmap={{ key: "deviceid", value: "name" }}
         />
         <button type="submit" onClick={handleSubmit}>
           修 改

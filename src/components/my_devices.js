@@ -145,7 +145,6 @@ export default function MyDevices() {
           server={sipServerInfo}
           show={opdev.qshow}
           onClose={() => setOpdev({ ...opdev, qshow: false })}
-          onChange={onUpdateDevice}
         />
       )}
     </div>

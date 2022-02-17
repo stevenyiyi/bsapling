@@ -102,12 +102,12 @@ export default function ModifyDevice(props) {
           <input
             className="form__input"
             type="text"
-            id={dev.deviceid}
+            id="edit_deviceid"
             placeholder=" "
-            defaultValue={dev.deviceid}
+            value={dev.deviceid}
             readOnly
           />
-          <label htmlFor="deviceid" className="form__label">
+          <label htmlFor="edit_deviceid" className="form__label">
             设备编码
           </label>
         </div>
@@ -115,7 +115,7 @@ export default function ModifyDevice(props) {
           <input
             className="form__input"
             type="text"
-            id={`${dev.deviceid}_name`}
+            id="edit_devname"
             value={name}
             placeholder=" "
             onChange={(e) => setName(e.target.value)}

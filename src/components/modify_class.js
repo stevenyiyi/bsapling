@@ -1,6 +1,5 @@
 import React from "react";
 import { PropTypes } from "prop-types";
-
 import Modal from "./modal";
 import http from "../http_common";
 import MyCamsSelect from "./my_cams_select";

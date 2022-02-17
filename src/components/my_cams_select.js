@@ -10,7 +10,6 @@ const MyCamsSelect = React.forwardRef((props, ref) => {
   React.useImperativeHandle(ref, () => ({
     getDeviceName: (deviceid) => {
       let name = "";
-      console.log(myCameras);
       let found = false;
       for (const dev of myCameras) {
         if (dev.deviceid.substr(10, 3) === "111") {
@@ -29,7 +28,6 @@ const MyCamsSelect = React.forwardRef((props, ref) => {
         }
         if (found) break;
       }
-      console.log(`getDeviceName by:${deviceid},name:${name}`);
       return name;
     }
   }));

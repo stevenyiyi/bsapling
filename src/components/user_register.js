@@ -13,6 +13,7 @@ export default function UserRegister(props) {
   const nowDate = new Date(Date.now() + 180 * 24 * 3600000).Format(
     "yyyy-MM-dd"
   );
+
   const [form, setForm] = React.useState({
     telphone: "",
     password: "88888888",
@@ -21,6 +22,7 @@ export default function UserRegister(props) {
     endts: nowDate,
     schoolid: ""
   });
+
   const [selectedCameras, setSelectedCameras] = React.useState([]);
   const [message, setMessage] = React.useState({ show: false, text: "" });
   const refCams = React.useRef();
@@ -29,7 +31,16 @@ export default function UserRegister(props) {
     setForm({ ...form, [field]: value });
   };
 
-  React.useEffect(() => {});
+  const genAddCams = () => {
+    let cams = [];
+    for (const deviceid of selectedCameras) {
+      cams.push({
+        deviceid: deviceid,
+        name: refCams.current.getDeviceName(deviceid)
+      });
+    }
+    return cams;
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -53,7 +64,7 @@ export default function UserRegister(props) {
       password: form.password,
       end_ts: form.endts,
       parent_id: userCtx.username,
-      cameras: selectedCameras
+      cameras: genAddCams()
     };
 
     if (form.role === "leader") {

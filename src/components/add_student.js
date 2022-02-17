@@ -83,11 +83,11 @@ export default function AddStudentInfo(props) {
           onChange({
             nick_name: fixName(form.parent),
             username: form.telphone,
+            password: "88888888",
             photo: photoname,
             end_ts: endts
           });
-          setField("name", "");
-          setField("telphone", "");
+          setForm({ ...form, name: "", telphone: "" });
           setMessage({ ...message, show: true, text: "新增幼儿信息成功!" });
         } else {
           setMessage({
@@ -106,7 +106,7 @@ export default function AddStudentInfo(props) {
       <form className="formContainer" onSubmit={handleSubmit}>
         <div className="form__div">
           <input
-            id="add-student_edit_id"
+            id="add-student_edit_name"
             type="text"
             className="form__input"
             value={form.name}

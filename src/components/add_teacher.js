@@ -64,10 +64,8 @@ export default function AddTeacher(props) {
             classes: classids
           });
           /// Clear fields
-          setField("name", "");
           setClassids([]);
-          setField("introduce", "");
-          setField("telphone", "");
+          setForm({ ...form, name: "", telphone: "", introduce: "" });
           setMessage({ ...message, show: true, text: "新增教师信息成功!" });
         } else {
           setMessage({

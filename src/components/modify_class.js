@@ -41,7 +41,7 @@ export default function ModifyClass(props) {
       let cams = [];
       for (const deviceid of selectedCameras) {
         let cam = { deviceid: deviceid, name: "" };
-        cam.name = refCams.getDeviceName(deviceid);
+        cam.name = refCams.current.getDeviceName(deviceid);
         cams.push(cam);
       }
       uclass.cameras = cams;

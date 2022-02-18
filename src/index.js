@@ -4,7 +4,8 @@ import App from "./App";
 import { default as SnackbarProvider } from "./components/snackbar";
 
 (() => {
-  console.log(process.env);
+  console.log(process);
+  console.log(process.env.npm_package_config_publish);
   ReactDOM.render(
     <React.StrictMode>
       <SnackbarProvider>

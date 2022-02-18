@@ -25,7 +25,8 @@ const App = (props) => {
     user: props.user,
     updateUser: updateUser
   });
-
+  console.log(props.user);
+  console.log(cuser);
   return (
     <Router>
       <UserContext.Provider value={cuser}>

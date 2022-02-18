@@ -13,14 +13,20 @@ export const userCookies = {
     let qparams = { ts: Date.now() };
     qparams.username = Cookies.get("username");
     qparams.token = Cookies.get("token");
-    http.get(path, { params: qparams }).then((response) => {
-      let result = response.data.result;
-      if (result === 0) {
-        return true;
-      } else {
+    http
+      .get(path, { params: qparams })
+      .then((response) => {
+        let result = response.data.result;
+        if (result === 0) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+      .catch((e) => {
+        console.log("Error:", e);
         return false;
-      }
-    });
+      });
   })()
 };
 export const UserContext = React.createContext({

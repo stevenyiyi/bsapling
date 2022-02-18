@@ -15,17 +15,16 @@ import MySubusers from "./components/my_subusers";
 import Login from "./components/login";
 import Registration from "./components/registration";
 import MySchools from "./components/my_schools";
-import { UserContext } from "./user_context";
+import { UserContext, userCookies } from "./user_context";
 import "./components/sidebar.css";
 const App = (props) => {
   const updateUser = (user) => {
     setCuser({ ...cuser, user: user });
   };
   const [cuser, setCuser] = React.useState({
-    user: props.user,
+    user: userCookies,
     updateUser: updateUser
   });
-  console.log(props.user);
   console.log(cuser);
   return (
     <Router>

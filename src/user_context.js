@@ -6,7 +6,7 @@ export const userCookies = {
   username: Cookies.get("username"),
   token: Cookies.get("token"),
   role: Cookies.get("role"),
-  is_login: (() => {
+  is_login: (async () => {
     if (!Cookies.get("username")) {
       return false;
     }
@@ -14,7 +14,7 @@ export const userCookies = {
     qparams.username = Cookies.get("username");
     qparams.token = Cookies.get("token");
     let is_login = false;
-    http
+    await http
       .get(path, { params: qparams })
       .then((response) => {
         let result = response.data.result;

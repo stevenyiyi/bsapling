@@ -19,9 +19,6 @@
     "@babel/runtime": "latest",
     "typescript": "latest"
   },
-  "config": {
-    "publish": "localhost"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

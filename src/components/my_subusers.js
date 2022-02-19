@@ -109,14 +109,14 @@ export default function MySubusers(props) {
         .then((response) => {
           if (response.data.result === 0) {
             /// 删除成功
+            setOpType(OP_UNKNOWN);
             let cusers = [...data];
             cusers.splice(opIndex, 1);
             setData(cusers);
             setTotalRows((prevs) => prevs - 1);
-            setOpType(OP_UNKNOWN);
           } else {
-            openSnackbar.current(`服务器返回错误代码:${response.data.result}`);
             setOpType(OP_UNKNOWN);
+            openSnackbar.current(`服务器返回错误代码:${response.data.result}`);
           }
         })
         .catch((e) => {

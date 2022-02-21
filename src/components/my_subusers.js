@@ -265,9 +265,11 @@ export default function MySubusers(props) {
         <div style={{ marginLeft: "10px" }}>
           <MyDevicesSelect
             value={filter.deviceid}
-            onSelectChange={(deviceid) =>
-              setFilter({ ...filter, deviceid: deviceid })
-            }
+            onSelectChange={(deviceid) => {
+              /// 选择 NVR 改变
+              setPage(0);
+              setFilter({ ...filter, deviceid: deviceid });
+            }}
           />
         </div>
         <div className="search-container">

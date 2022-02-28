@@ -9,6 +9,7 @@
     "crypto-js": "latest",
     "js-cookie": "latest",
     "react": "latest",
+    "react-app-polyfill": "latest",
     "react-dom": "latest",
     "react-icons": "latest",
     "react-router-dom": "latest",

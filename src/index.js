@@ -2,7 +2,7 @@ import "react-app-polyfill/ie11";
 import "react-app-polyfill/stable";
 
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from 'react-dom/client';
 import Cookies from "js-cookie";
 import http from "./http_common";
 import App from "./App";
@@ -35,10 +35,12 @@ import App from "./App";
         user.is_login = false;
       });
   }
-  ReactDOM.render(
+
+  const container = document.getElementById("root");
+  const root = createRoot(container);
+  root.render(
     <React.StrictMode>
       <App userCookie={user} />
-    </React.StrictMode>,
-    document.getElementById("root")
+    </React.StrictMode>
   );
 })();

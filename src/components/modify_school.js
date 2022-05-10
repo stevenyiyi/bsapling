@@ -27,9 +27,9 @@ export default function ModifySchool(props) {
         for (const pic of pics) {
           let fname = pic.substr(0, pic.lastIndexOf("."));
           let idx = parseInt(fname, 10);
-          refPics[
-            idx
-          ].current.src = `${config.resBaseUrl}/imgs/${school.schoolid}_image_${pic}`;
+          refPics[idx].current.src = `${config.resBaseUrl}/imgs/${
+            school.schoolid
+          }_image_${pic}?ts=${Date.now()}`;
         }
       }
     }
@@ -75,6 +75,7 @@ export default function ModifySchool(props) {
       uschool.introduce = introduce;
     }
 
+    const pics = school.photo.split(",");
     for (let i = 0; i < selectFiles.length; i++) {
       if (selectFiles[i]) {
         let ext = selectFiles[i].name.split(".").pop();
@@ -83,8 +84,11 @@ export default function ModifySchool(props) {
           selectFiles[i],
           `${school.schoolid}_image_${i}.${ext}`
         );
+        pics[i] = `${i}.${ext}`;
       }
     }
+
+    uschool.photo = pics.join(",");
 
     if (mfields.length === 0) return;
 

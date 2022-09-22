@@ -80,7 +80,6 @@ export default function ModifyDevice(props) {
     if (mcam) {
       const mfield = mcam.changes.find((field) => field.key === key);
       if (mfield) {
-        mfield.key = key;
         mfield.value = value;
       } else {
         mcam.changes.push({ key: key, value: value });

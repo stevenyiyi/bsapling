@@ -5,6 +5,7 @@ import MyClassSelect from "./my_class_select";
 import http from "../http_common";
 import ModifyStudent from "./modify_student";
 import AddStudent from "./add_student";
+import Confirm from "./confirm";
 import ASTooltip from "./as_tootip";
 import "./common.css";
 export default function MyStudents(props) {
@@ -16,6 +17,13 @@ export default function MyStudents(props) {
     show: false
   });
   const [addStudentShow, setAddStudentShow] = React.useState(false);
+  const [confirm, setConfirm] = React.useState({
+    show: false,
+    message: "",
+    onOK: undefined,
+    onCancel: undefined
+  });
+  const [deleteInfo, setDeleteInfo] = React.useState({ index: 0, flag: false });
   const [message, setMessage] = React.useState({ show: false, text: "" });
   const refConfirm = React.useRef();
   const refSelClass = React.useRef();
@@ -34,12 +42,56 @@ export default function MyStudents(props) {
     }
   }, [schoolid, classid]);
 
+  React.useEffect(() => {
+    if (deleteInfo.flag) {
+      console.log(`Delete user:${data[deleteInfo.index].username}`);
+      http
+        .get(`/sapling/delete_user?username=${data[opIndex].username}`)
+        .then((response) => {
+          setDeleteInfo({ ...deleteInfo, flag: false });
+          if (response.data.result === 0) {
+            /// 删除成功
+            setDeleteInfo({ ...deleteInfo, flag: false });
+            let cusers = [...data];
+            cusers.splice(deleteInfo.index, 1);
+            setData(cusers);
+          } else {
+            setOpType(OP_UNKNOWN);
+            openSnackbar.current(`服务器返回错误代码:${response.data.result}`);
+          }
+        })
+        .catch((e) => {
+          setOpType(OP_UNKNOWN);
+          openSnackbar.current(e.toJSON().message);
+        });
+    }
+  });
+
   const handleEditClick = (idx) => {
     setEdStudent({ ...edStudent, index: idx, show: true });
   };
 
+  ///处理删除学生信息
   const handleDeleteClick = (idx) => {
-    ///处理删除学生信息
+    setDeleteInfo({ ...deleteInfo, index: idx });
+    setConfirm({
+      ...confirm,
+      show: true,
+      message: `确定要删除用户:${data[idx].nick_name}？注意,删除后将无法恢复!`,
+      onOK: handleConfirmDeleteUser,
+      onCancel: handleCancelDeleteUser
+    });
+  };
+
+  /// 确认删除指定的子用户
+  const handleConfirmDeleteUser = () => {
+    setConfirm({ ...confirm, show: false });
+    setDeleteInfo({ ...deleteInfo, flag: true });
+  };
+
+  /// 终止删除指定用户
+  const handleCancelDeleteUser = () => {
+    setConfirm({ ...confirm, show: false });
   };
 
   const handleAddClick = (event) => {
@@ -146,6 +198,12 @@ export default function MyStudents(props) {
           onChange={handleModifyStudent}
         />
       )}
+      <Confirm
+        show={confirm.show}
+        message={confirm.message}
+        onCancel={confirm.onCancel}
+        onOK={confirm.onOK}
+      />
     </div>
   );
 }

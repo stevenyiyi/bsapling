@@ -1,6 +1,5 @@
 import React from "react";
 import Modal from "./modal";
-import ASSelect from "./as_select";
 import ASTooltip from "./as_tootip";
 import config from "../config";
 import http from "../http_common";
@@ -12,7 +11,6 @@ export default function AddStudentInfo(props) {
   const [form, setForm] = React.useState({
     name: "",
     telphone: "",
-    parent: "mother",
     photo: undefined
   });
   const [message, setMessage] = React.useState({ show: false, text: "" });
@@ -23,26 +21,6 @@ export default function AddStudentInfo(props) {
   const refAvatar = React.useRef();
   const setField = (field, value) => {
     setForm({ ...form, [field]: value });
-  };
-  const fixName = (parent) => {
-    let name = form.name;
-    switch (parent) {
-      case "mother":
-        name += "妈妈";
-        break;
-      case "father":
-        name += "爸爸";
-        break;
-      case "grandfather":
-        name += "爷爷";
-        break;
-      case "grandmother":
-        name += "奶奶";
-        break;
-      default:
-        break;
-    }
-    return name;
   };
 
   /// 处理文件上传
@@ -67,9 +45,9 @@ export default function AddStudentInfo(props) {
     let formData = new FormData();
     formData.append("classid", classid);
     formData.append("role", "student");
-    formData.append("name", form.name);
+    formData.append("name", form.name + "家长");
     formData.append("telphone", form.telphone);
-    formData.append("parent", form.parent);
+
     if (form.photo) {
       let ext = form.photo.name.split(".").pop();
       photoname = `${form.telphone}.${ext}`;
@@ -81,7 +59,7 @@ export default function AddStudentInfo(props) {
       .then((response) => {
         if (response.data.result === 0) {
           onChange({
-            nick_name: fixName(form.parent),
+            nick_name: form.name + "家长",
             username: form.telphone,
             password: "88888888",
             photo: photoname,
@@ -157,18 +135,6 @@ export default function AddStudentInfo(props) {
             </figure>
           </label>
         </div>
-        <ASSelect
-          title="选择监护人"
-          items={[
-            { key: "mother", value: "妈妈" },
-            { key: "father", value: "爸爸" },
-            { key: "grandmother", value: "奶奶" },
-            { key: "grandfather", value: "爷爷" },
-            { key: "other", value: "其它" }
-          ]}
-          selectedKey="mother"
-          onChange={(val) => setField("parent", val)}
-        />
         <div className="form__div">
           <input
             type="date"

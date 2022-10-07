@@ -19,7 +19,10 @@ export default function AddTeacher(props) {
   const setField = (field, value) => {
     setForm({ ...form, [field]: value });
   };
-
+  const nowDate = new Date(Date.now() + 360 * 24 * 3600000).Format(
+    "yyyy-MM-dd"
+  );
+  const [endts, setEndts] = React.useState(nowDate);
   const refAvatar = React.useRef();
   /// 处理文件上传
   const handleFileUpload = (event) => {
@@ -52,6 +55,7 @@ export default function AddTeacher(props) {
       let upload_file = `${form.telphone}.${ext}`;
       formData.append("photo", form.photo, upload_file);
     }
+    formData.append("endts", endts);
     http
       .post("/sapling/add_subuser", formData)
       .then((response) => {
@@ -106,7 +110,7 @@ export default function AddTeacher(props) {
             type="tel"
             className="form__input"
             value={form.telphone}
-            pattern="[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}"
+            pattern="[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,3,8,9]))[0-9]{8}"
             required
             placeholder=" "
             onChange={(e) => setField("telphone", e.target.value)}
@@ -122,6 +126,19 @@ export default function AddTeacher(props) {
           setSelectedItems={setClassids}
           kvmap={{ key: "classid", value: "name" }}
         />
+        <div className="form__div">
+          <input
+            type="date"
+            id="teacher-end-ts"
+            name="student-end-ts"
+            className="form__input"
+            value={endts}
+            onChange={(e) => setEndts(e.target.value)}
+          />
+          <label className="form__label" htmlFor="teacher-end-ts">
+            帐户终止日期
+          </label>
+        </div>
         <div className="personal-image">
           <label>
             <input

@@ -11,6 +11,7 @@ export default function ModifyTeacher(props) {
   const [classids, setClassids] = React.useState([]);
   const [photo, setPhoto] = React.useState(null);
   const [introduce, setIntroduce] = React.useState("");
+  const [endts, setEndts] = React.useState("1970-01-01");
   const refAvatar = React.useRef();
 
   React.useEffect(() => {
@@ -24,6 +25,7 @@ export default function ModifyTeacher(props) {
       } else {
         refAvatar.current.src = `${config.resBaseUrl}/imgs/img_avatar_unknow.png`;
       }
+      setEndts(teacher.end_ts);
     }
   }, [teacher]);
 
@@ -66,6 +68,11 @@ export default function ModifyTeacher(props) {
       mfields.append("photo", photo, upload_file);
     }
 
+    if (teacher.end_ts !== endts) {
+      mfields.append("end_ts", endts);
+      uteacher.end_ts = endts;
+    }
+
     if (!mfields) return;
 
     http
@@ -105,6 +112,19 @@ export default function ModifyTeacher(props) {
           setSelectedItems={setClassids}
           kvmap={{ key: "classid", value: "name" }}
         />
+        <div className="form__div">
+          <input
+            id="edit_teacher_endts"
+            name="edit_teacher_endts"
+            type="date"
+            className="form__input"
+            value={endts}
+            onChange={(e) => setEndts(e.target.value)}
+          />
+          <label className="form__label" htmlFor="edit_teacher_endts">
+            帐户终止日期
+          </label>
+        </div>
         <div className="personal-image">
           <label>
             <input

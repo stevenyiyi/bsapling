@@ -1,12 +1,5 @@
 export default {
-  apiBaseUrl:
-    process.env.NODE_ENV === "production"
-      ? "https://b.anylooker.com/"
-      : "https://localhost/",
-  resBaseUrl:
-    process.env.NODE_ENV === "production"
-      ? "https://anylooker.com"
-      : "https://localhost/",
+  apiBaseUrl: "10.201.2.17",
   googleWebClientId:
     "947434104376-39t4p666elc7s9tlc5ac7hnec6g3oips.apps.googleusercontent.com"
 };

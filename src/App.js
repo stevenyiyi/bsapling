@@ -38,7 +38,7 @@ const App = (props) => {
               <Header />
               <div className="content">
                 <Routes>
-                  <Route path="/" element={<Navigate to="/my_schools" />} />
+                  <Route path="/" element={<Navigate to="/my_devices" />} />
                   <Route path="/my_schools" element={<MySchools />} />
                   <Route path="/my_teachers" element={<MyTeachers />} />
                   <Route path="/my_classes" element={<MyClasses />} />

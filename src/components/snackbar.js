@@ -34,6 +34,8 @@ export default function Snackbar({ children }) {
   // Custom styles for the close button
   const [closeCustomStyles, setCloseCustomStyles] = useState({});
 
+  const nodeRef = React.useRef(null);
+
   const triggerSnackbar = (text, duration, position, style, closeStyle) => {
     setText(text);
     setDuration(duration);
@@ -69,6 +71,7 @@ export default function Snackbar({ children }) {
       {/* Renders Snackbar on the end of the page */}
       <CSSTransition
         in={open}
+        nodeRef={nodeRef}
         timeout={150}
         mountOnEnter
         unmountOnExit
@@ -87,7 +90,7 @@ export default function Snackbar({ children }) {
       >
         {/* This div will be rendered with CSSTransition classNames */}
         <div>
-          <div className="snackbar" style={customStyles}>
+          <div ref={nodeRef} className="snackbar" style={customStyles}>
             {/* Snackbar's text */}
             <div className="snackbar__text">{text}</div>
 

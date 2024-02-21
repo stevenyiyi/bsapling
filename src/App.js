@@ -30,7 +30,7 @@ const App = (props) => {
 
   console.log(userContext);
   return (
-    <Router>
+    <Router basename="/b">
       <UserContext.Provider value={userContext}>
         <SnackbarProvider>
           {userContext.user.is_login ? (

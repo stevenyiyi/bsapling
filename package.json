@@ -4,7 +4,7 @@
   "description": "",
   "keywords": [],
   "main": "src/index.js",
-  "homepage": ".",
+  "homepage": "/b",
   "dependencies": {
     "axios": "latest",
     "crypto-js": "latest",
